@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Protótipo do site do projeto Promoção da Qualidade e Equidade na Educação Infantil: consulta nacional e monitoramento do uso de indicadores de qualidade à luz dos PNQEEI (2024).">
+<title>Projeto PNQEEI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@700;800;900&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Caderno de desenho: papel claro com pontilhado suave, traços de giz desenhados em SVG com filtro de textura,
+   texto em azul-tinta, seis cores de giz com versões clara (fundo) e escura (texto). Identidade clara única, por escolha. */
+:root{
+  color-scheme: light;
+  --papel:#FCFAF5; --papel-2:#F4F0E6; --branco:#FFFFFF; --ponto:#DCD5C4; --linha:#E5DFD1; --borda-campo:#7A7F8F;
+  --tinta:#1E2A4A; --tinta-2:#4B5470; --tinta-hover:#2F3E6B;
+  --amarelo:#FFC83D; --rosa:#F27BB4; --azul:#4DB3EB; --verde:#8DCB4A; --laranja:#FF9A3C; --lilas:#A486F0;
+  --amarelo-100:#FFF3CF; --rosa-100:#FDE6F0; --azul-100:#E1F2FC; --verde-100:#EBF6DD; --lilas-100:#EEE8FD; --laranja-100:#FFEBD8;
+  --amarelo-700:#7A5400; --rosa-700:#A0266A; --azul-700:#145F8E; --verde-700:#3F6E14; --lilas-700:#5A3DB0; --laranja-700:#9A4600;
+  --erro:#B42318; --erro-100:#FDECEA;
+  --f-titulo:"Nunito", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-texto:"Source Sans 3", "Segoe UI", Roboto, system-ui, sans-serif;
+  --m:32px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.6 var(--f-texto);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--papel)}
+h1,h2,h3,h4{font-family:var(--f-titulo);color:var(--tinta);margin:0;text-wrap:balance}
+h2{font-weight:900;font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1.12;letter-spacing:-.01em}
+h3{font-weight:800;font-size:1.375rem;line-height:1.25}
+p{margin:0}
+a{color:var(--tinta);text-decoration-color:var(--rosa);text-decoration-thickness:3px;text-underline-offset:.2em}
+a:hover{text-decoration-color:var(--amarelo)}
+:where(a,button,input,select,summary):focus-visible{outline:3px solid var(--tinta);outline-offset:3px;border-radius:4px}
+[hidden]{display:none!important}
+
+.faixa{position:relative;isolation:isolate;overflow:hidden;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto;position:relative}
+.pontilhado{background-color:var(--papel);background-image:radial-gradient(circle,var(--ponto) 1.3px,transparent 1.5px);background-size:var(--m) var(--m);background-position:-16px -16px}
+.rotulo{font:700 .9375rem/1.3 var(--f-titulo);color:var(--rosa-700)}
+.apoio{color:var(--tinta-2);max-width:38rem;font-size:1.125rem}
+
+/* Giz: SVG com filtro de textura */
+.giz{position:absolute;z-index:-1;pointer-events:none;overflow:visible;filter:url(#f-giz)}
+.giz path,.giz polyline{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.giz .cheio{fill:currentColor;stroke:none}
+.giz-inline{display:block;overflow:visible;filter:url(#f-giz)}
+.giz-inline path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.giz-inline .cheio{fill:currentColor;stroke:none}
+
+/* Folha pautada */
+.pautada{position:relative;background-color:#FFFEF7;
+  background-image:linear-gradient(90deg,transparent 55px,rgb(242 123 180 / .75) 55px 57px,transparent 57px),repeating-linear-gradient(transparent 0 31px,#D9E4F2 31px 32px);
+  background-position:0 15px;line-height:32px;padding:16px 28px 16px 80px;border-radius:3px;box-shadow:0 1px 0 var(--linha),0 10px 24px -14px rgb(30 42 74 / .35)}
+.pautada::before{content:"";position:absolute;top:-12px;left:50%;width:96px;height:26px;transform:translateX(-50%) rotate(-2deg);background:rgb(255 200 61 / .75);border-radius:2px}
+.pautada h3{font-size:1.25rem;line-height:32px}
+.pautada ul{margin:0;padding-left:1.1em}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:10px 24px;border-radius:999px;font:800 1.0625rem/1.3 var(--f-titulo);text-decoration:none;border:2.5px solid var(--tinta);cursor:pointer;transition:transform .12s, background-color .12s}
+.btn-primario{background:var(--tinta);color:#fff}
+.btn-primario:hover{background:var(--tinta-hover);border-color:var(--tinta-hover);color:#fff}
+.btn-secundario{background:var(--branco);color:var(--tinta)}
+.btn-secundario:hover{background:var(--amarelo-100)}
+.btn:active{transform:translateY(1px)}
+
+/* Cabeçalho */
+.topo{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:rgb(252 250 245 / .96);border-bottom:1px solid var(--linha);overflow:visible}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:12px}
+.marca{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--tinta)}
+.marca svg{flex:none}
+.marca strong{display:block;font:900 1rem/1.15 var(--f-titulo)}
+.marca span span{display:block;font-size:.8125rem;color:var(--tinta-2);line-height:1.3}
+.nav{display:flex;align-items:center;gap:26px}
+.nav a:not(.btn){font:700 .9375rem/1 var(--f-titulo);text-decoration:none;padding-block:8px}
+.nav a:not(.btn):hover{text-decoration:underline;text-decoration-color:var(--amarelo)}
+.nav .btn{min-height:44px;padding:8px 22px}
+
+/* Hero */
+.hero{padding-block:88px 120px;text-align:center}
+.hero .wrap{display:flex;flex-direction:column;align-items:center;gap:22px}
+.hero h1{font-weight:900;font-size:clamp(2.2rem,5vw,3.9rem);line-height:1.06;letter-spacing:-.015em;max-width:17ch}
+.hero .sub{font:700 clamp(1.1rem,1.8vw,1.375rem)/1.4 var(--f-titulo);color:var(--tinta-2);max-width:40rem}
+.acoes{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:6px}
+.assinaturas{display:flex;flex-wrap:wrap;justify-content:center;gap:20px 56px;margin-top:22px}
+.grupo{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.grupo b{font:700 .875rem/1 var(--f-titulo);color:var(--verde-700)}
+.logos{display:flex;gap:14px}
+.logo{height:52px;min-width:116px;padding-inline:18px;display:grid;place-items:center;border:1.5px dashed #B9B2A2;border-radius:6px;background:rgb(255 255 255 / .7);font:700 .75rem var(--f-titulo);color:var(--tinta-2)}
+
+/* Projeto */
+.secao{padding-block:104px}
+.projeto .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:72px;align-items:center}
+.projeto .texto{display:flex;flex-direction:column;gap:20px}
+.projeto .texto p{max-width:36rem}
+.titulo-giz{position:relative;display:inline-block;isolation:isolate}
+.titulo-giz svg{position:absolute;left:-3%;bottom:-.18em;width:106%;height:.42em;z-index:-1}
+
+/* Ações */
+.acoes-sec{background:var(--azul-100)}
+.acoes-sec .wrap{display:flex;flex-direction:column;gap:48px}
+.cab{display:flex;flex-direction:column;gap:12px}
+.lista-acoes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.acao{position:relative;background:var(--branco);border:2.5px solid var(--tinta);border-radius:18px;padding:32px 32px 36px;display:flex;flex-direction:column;gap:16px;box-shadow:8px 8px 0 var(--sombra-cor)}
+.acao .ilustra{width:150px;height:110px}
+.acao .tag{align-self:flex-start}
+.acao ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.acao li{display:flex;gap:12px;align-items:flex-start}
+.acao li::before{content:"";flex:none;width:12px;height:12px;margin-top:.5em;border-radius:50%;background:var(--ponto-cor)}
+.tag{display:inline-flex;align-items:center;padding:4px 14px;border-radius:999px;font:800 .875rem/1.4 var(--f-titulo);background:var(--tag-fundo);color:var(--tag-texto)}
+
+/* Quem participa */
+.chips{display:flex;flex-wrap:wrap;gap:12px;max-width:56rem}
+.chip{padding:10px 18px;border-radius:999px;font:700 1rem/1.3 var(--f-titulo);background:var(--tag-fundo);color:var(--tag-texto)}
+.participa .wrap{display:flex;flex-direction:column;gap:28px}
+
+/* Passos */
+.passos{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.passos li{display:flex;flex-direction:column;gap:12px}
+.passos p{color:var(--tinta-2)}
+.num{position:relative;width:76px;height:76px;display:grid;place-items:center;font:900 2rem/1 var(--f-titulo);isolation:isolate}
+.num svg{position:absolute;inset:-6px;width:88px;height:88px;z-index:-1}
+.participar .wrap{display:flex;flex-direction:column;gap:48px}
+.nota-dados{max-width:44rem;align-self:flex-end;transform:rotate(.6deg)}
+
+/* Chamada */
+.chamada{background:var(--amarelo-100);padding-block:80px}
+.chamada .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
+
+/* Rodapé */
+.rodape{background:var(--tinta);color:#E7EAF3;padding-block:0 32px}
+.rodape .risco-cores{display:block;width:100%;height:22px;margin-bottom:56px}
+.rodape .wrap{display:flex;flex-direction:column;gap:44px}
+.colunas{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:40px}
+.colunas h4{color:#fff;font-size:1rem;margin-bottom:14px}
+.colunas ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rodape a{color:#E7EAF3;text-decoration-color:rgb(255 200 61 / .7)}
+.rodape .marca,.rodape .marca strong{color:#fff}
+.rodape .marca span span{color:#BAC2D6}
+.rodape :focus-visible{outline-color:var(--amarelo)}
+.final{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:22px;border-top:1px solid #3A4870;font-size:.875rem;color:#BAC2D6}
+
+/* Cadastro */
+.cadastro{padding-block:56px 96px}
+.cadastro .wrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:start}
+.lado{position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px);display:flex;flex-direction:column;gap:24px}
+.lado h1{font-weight:900;font-size:2.25rem;line-height:1.1}
+.voltar{font:700 .9375rem/1 var(--f-titulo)}
+.etapas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.etapas a{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:10px;text-decoration:none;font:700 1rem/1.3 var(--f-titulo)}
+.etapas a:hover{background:var(--papel-2)}
+.etapas .marcador{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:2.5px solid var(--tinta);font:900 .875rem/1 var(--f-titulo);background:var(--branco)}
+.etapas li.ok .marcador{background:var(--verde);border-color:var(--verde-700);color:var(--tinta)}
+.form-cartao{background:var(--branco);border:2.5px solid var(--tinta);border-radius:20px;padding:40px clamp(20px,4vw,48px) 44px;box-shadow:10px 10px 0 var(--lilas-100)}
+fieldset{border:0;margin:0;padding:0 0 36px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px 18px}
+fieldset + fieldset{padding-top:32px;border-top:2px dashed var(--linha)}
+legend{grid-column:1/-1;display:flex;align-items:center;gap:12px;font:900 1.375rem/1.2 var(--f-titulo);padding:0;margin-bottom:22px;float:left;width:100%}
+legend .bola{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1rem;background:var(--bola)}
+.legenda-ajuda{grid-column:1/-1;color:var(--tinta-2);font-size:.9375rem;margin-top:-10px}
+.campo{display:flex;flex-direction:column;gap:6px;grid-column:span 6;min-width:0}
+.c3{grid-column:span 3}.c2{grid-column:span 2}.c4{grid-column:span 4}
+.campo label{font:800 1rem/1.3 var(--f-titulo)}
+.campo label small{font:400 .875rem var(--f-texto);color:var(--tinta-2)}
+.campo input,.campo select{width:100%;min-height:50px;padding:11px 14px;border:1.5px solid var(--borda-campo);border-radius:10px;background:var(--branco);font:400 1.0625rem var(--f-texto);color:var(--tinta)}
+.campo select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--tinta) 50%),linear-gradient(135deg,var(--tinta) 50%,transparent 50%);background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.campo input:focus-visible,.campo select:focus-visible{outline:3px solid var(--azul);outline-offset:1px;border-color:var(--tinta)}
+.dica{font-size:.875rem;color:var(--tinta-2)}
+.campo .erro-msg{font-size:.9375rem;color:var(--erro);font-weight:600}
+.campo.invalido input,.campo.invalido select{border:2px solid var(--erro);background:var(--erro-100)}
+.senha-linha{position:relative}
+.senha-linha input{padding-right:96px}
+.mostrar{position:absolute;right:6px;top:50%;transform:translateY(-50%);min-height:38px;padding:4px 12px;border:0;border-radius:8px;background:var(--papel-2);font:800 .875rem var(--f-titulo);color:var(--tinta);cursor:pointer}
+.consentimento{grid-column:1/-1;display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:12px;background:var(--papel)}
+.consentimento input{width:22px;height:22px;margin-top:2px;accent-color:var(--tinta);flex:none}
+.consentimento.invalido{background:var(--erro-100);outline:2px solid var(--erro)}
+.resumo-erros{border:2.5px solid var(--erro);background:var(--erro-100);border-radius:14px;padding:18px 22px;margin-bottom:28px}
+.resumo-erros h2{font-size:1.25rem;color:var(--erro);margin-bottom:8px}
+.resumo-erros ul{margin:0;padding-left:1.2em}
+.resumo-erros a{color:var(--erro);text-decoration-color:var(--erro)}
+.enviar{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding-top:8px}
+.sucesso{text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;padding-block:24px}
+.sucesso h2{font-size:2rem}
+
+/* Destaques da página inicial */
+.destaque{background:var(--papel)}
+.destaque .wrap{display:flex;flex-direction:column;gap:40px}
+.destaque .lista-acoes{align-items:stretch}
+.destaque .acao{justify-content:flex-start}
+.destaque .acao .btn{align-self:flex-start;margin-top:auto}
+.acao canvas.mini-selo{width:132px;height:132px;transform:rotate(-6deg)}
+.tag-andamento{--tag-fundo:var(--laranja-100);--tag-texto:var(--laranja-700)}
+
+/* Faixa "em andamento" */
+.fita-obra{background:repeating-linear-gradient(-45deg,var(--amarelo) 0 18px,var(--tinta) 18px 36px);padding:10px 16px;display:flex;justify-content:center}
+.fita-obra span{background:var(--branco);border:2.5px solid var(--tinta);border-radius:999px;padding:4px 18px;font:900 .9375rem/1.3 var(--f-titulo);text-transform:uppercase;letter-spacing:.04em;text-align:center}
+.carimbo{align-self:flex-start;display:inline-block;transform:rotate(-4deg);border:3px solid var(--rosa-700);color:var(--rosa-700);border-radius:10px;padding:2px 14px;font:900 1rem/1.4 var(--f-titulo);text-transform:uppercase;letter-spacing:.08em;background:rgb(255 255 255 / .7)}
+.aviso-andamento{display:flex;gap:16px;align-items:flex-start;background:var(--laranja-100);border:2px solid var(--laranja);border-radius:14px;padding:18px 20px;margin-bottom:8px}
+.aviso-andamento h3{font-size:1.125rem;margin-bottom:4px}
+.aviso-andamento svg{flex:none}
+.tag-prel{display:inline-flex;margin-left:8px;padding:2px 10px;border-radius:999px;background:var(--laranja-100);color:var(--laranja-700);font:800 .8125rem/1.4 var(--f-titulo);vertical-align:middle}
+
+/* Questionário */
+.consulta{padding-block:48px 96px}
+.consulta .wrap{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:48px;align-items:start}
+.consulta .lado h1{font-size:1.875rem}
+.etapas button{display:flex;align-items:center;gap:12px;width:100%;padding:8px 10px;border:0;border-radius:10px;background:none;text-align:left;color:var(--tinta);cursor:pointer;font:700 1rem/1.3 var(--f-titulo)}
+.etapas button:hover{background:var(--papel-2)}
+.etapas li.atual > *{background:var(--amarelo-100)}
+.etapas li.atual .marcador{background:var(--amarelo)}
+.etapas .contagem{margin-left:auto;font:600 .8125rem/1 var(--f-texto);color:var(--tinta-2);white-space:nowrap}
+.ferramentas{display:flex;flex-wrap:wrap;gap:4px 20px}
+.btn-texto{background:none;border:0;padding:6px 0;font:700 .9375rem/1.3 var(--f-titulo);color:var(--tinta);text-decoration:underline;text-decoration-color:var(--rosa);text-decoration-thickness:3px;text-underline-offset:.2em;cursor:pointer;text-align:left}
+.btn-texto:hover{text-decoration-color:var(--amarelo)}
+.q-cab{display:flex;flex-direction:column;gap:12px;padding-bottom:4px}
+.q-cab h2{font-size:clamp(1.5rem,2.6vw,2rem)}
+.q-cab h2:focus{outline:none}
+.barra{height:10px;border-radius:999px;background:var(--papel-2);overflow:hidden}
+.barra span{display:block;height:100%;background:var(--verde);border-radius:inherit;transition:width .3s}
+.questao{padding:28px 0 6px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.questao + .questao,.q-sub + .questao{border-top:2px dashed var(--linha)}
+.q-sub + .questao{border-top:0}
+.enunciado{display:flex;gap:12px;align-items:flex-start;font:800 1.125rem/1.4 var(--f-titulo);color:var(--tinta)}
+.qn{flex:none;display:grid;place-items:center;min-width:34px;height:30px;padding:0 8px;border-radius:999px;background:var(--qcor);color:var(--tinta);font:900 .875rem/1 var(--f-titulo);margin-top:1px}
+.instr,.opcoes,.q-campo,.q-erro,.contador,.matriz-linha{margin-left:46px}
+.instr{font-size:.9375rem;color:var(--tinta-2)}
+.opcoes{display:flex;flex-direction:column;gap:8px}
+.opcao{display:flex;gap:12px;align-items:flex-start;padding:11px 16px;border:1.5px solid var(--linha);border-radius:12px;background:var(--branco);cursor:pointer;line-height:1.45}
+.opcao:hover{border-color:var(--borda-campo)}
+.opcao:has(input:checked){border-color:var(--tinta);background:var(--azul-100);box-shadow:inset 5px 0 0 var(--azul)}
+.opcao input{width:20px;height:20px;accent-color:var(--tinta);margin:2px 0 0;flex:none}
+.opcao:has(input:focus-visible){outline:3px solid var(--tinta);outline-offset:2px}
+.opcao.bloq{opacity:.45;cursor:not-allowed}
+.opcao b{font-weight:700}
+.outro-campo{margin:-2px 0 4px 34px}
+.q-campo{display:flex;flex-direction:column;gap:6px;max-width:36rem}
+.q-in{width:100%;min-height:48px;padding:10px 14px;border:1.5px solid var(--borda-campo);border-radius:10px;background:var(--branco);font:400 1.0625rem/1.4 var(--f-texto);color:var(--tinta)}
+textarea.q-in{min-height:130px;resize:vertical;line-height:1.5}
+select.q-in{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--tinta) 50%),linear-gradient(135deg,var(--tinta) 50%,transparent 50%);background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
+.q-in:focus-visible{outline:3px solid var(--azul);outline-offset:1px;border-color:var(--tinta)}
+.q-curto{max-width:12rem}
+.q-erro{color:var(--erro);font-weight:600;font-size:.9375rem}
+.questao.invalida .q-in{border:2px solid var(--erro);background:var(--erro-100)}
+.contador{font:700 .875rem/1.3 var(--f-titulo);color:var(--azul-700)}
+.nd{display:inline-flex;gap:8px;align-items:center;font-size:.9375rem;color:var(--tinta-2);cursor:pointer}
+.nd input{width:18px;height:18px;accent-color:var(--tinta)}
+.matriz-linha{padding:12px 0 14px;border-bottom:1px solid var(--linha)}
+.matriz-linha > p{font-weight:700;margin-bottom:8px}
+.matriz-linha .opcoes{margin-left:0;flex-direction:row;flex-wrap:wrap}
+.opcao.pilula{padding:7px 14px;border-radius:999px;font-size:.9375rem;align-items:center}
+.opcao.pilula input{margin:0}
+.q-nota{margin:30px 0 6px}
+.q-sub{font:900 1.25rem/1.3 var(--f-titulo);padding-top:40px;color:var(--azul-700)}
+.q-nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:28px;margin-top:28px;border-top:2px dashed var(--linha)}
+.q-nav .btn:only-child{margin-left:auto}
+.pendencias{display:flex;flex-direction:column;gap:18px;margin-top:8px}
+.pendencias h3{font-size:1.0625rem;margin-bottom:6px}
+.pendencias ul{margin:0;padding-left:1.2em}
+.intro-q{display:flex;flex-direction:column;gap:18px}
+.intro-q .pautada{margin-top:14px}
+.tudo-ok{display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:12px;background:var(--verde-100);font-weight:600}
+
+/* Adesão */
+.adesao-topo{padding-block:48px 88px}
+.adesao-topo .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:center}
+.adesao-topo .texto{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.adesao-topo h1{font-weight:900;font-size:clamp(2rem,4vw,3.1rem);line-height:1.08}
+.ganhos{list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+.ganhos li{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.ganhos li::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;margin-top:.42em;background:var(--c)}
+.selo-palco{display:grid;place-items:center}
+.selo-palco canvas{width:min(400px,78vw);height:auto;aspect-ratio:1;transform:rotate(-6deg);filter:drop-shadow(0 16px 18px rgb(30 42 74 / .2))}
+.secao-adesao{padding-block:72px 104px}
+.adesao-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:start}
+.termo-col{display:flex;flex-direction:column;gap:16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)}
+.termo-col .cab{flex-direction:row;align-items:center;flex-wrap:wrap;gap:16px}
+.termo{max-height:640px;overflow:auto;background-attachment:local;scrollbar-color:var(--borda-campo) transparent}
+.termo::before{display:none}
+.termo h3{margin-top:8px}
+.termo ol{margin:0;padding-left:1.2em}
+.termo .lacuna{background:var(--amarelo-100);border-bottom:2px dotted var(--amarelo-700);padding:0 4px}
+.esferas{flex-direction:row;flex-wrap:wrap;margin-left:0}
+.form-cartao .opcoes{margin-left:0}
+.resultado-adesao{padding-block:72px 104px}
+.resultado-adesao .wrap{display:flex;flex-direction:column;gap:36px}
+.resultado-adesao h2:focus{outline:none}
+.mesa{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) minmax(0,.6fr);gap:28px;align-items:start}
+.peca{margin:0;display:flex;flex-direction:column;gap:12px}
+.peca img{width:100%;height:auto;border:2.5px solid var(--tinta);border-radius:8px;background:var(--branco);box-shadow:8px 8px 0 var(--c)}
+.peca figcaption{font:800 1rem/1.3 var(--f-titulo)}
+.baixar{display:flex;flex-wrap:wrap;gap:8px}
+.baixar .btn{min-height:44px;padding:8px 18px;font-size:.9375rem}
+.res-rodape{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:start}
+.legenda-box p{white-space:pre-line}
+.codigo{font:900 1.25rem/1.3 var(--f-titulo);letter-spacing:.04em;color:var(--lilas-700)}
+.status{font-weight:600;color:var(--tinta-2);min-height:1.6em}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.campo .opcao{font:400 1.0625rem/1.45 var(--f-texto)}
+.campo .opcao input{width:20px;height:20px;min-height:0;padding:0}
+.campo .opcao.pilula{font-size:1rem;font-weight:600}
+
+@media (max-width:1000px){
+  .nav a:not(.btn){display:none}
+  .projeto .wrap,.cadastro .wrap,.consulta .wrap,.adesao-topo .wrap,.adesao-grid{grid-template-columns:1fr;gap:48px}
+  .termo-col{position:static}
+  .mesa{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .peca-cert{grid-column:1/-1}
+  .res-rodape{grid-template-columns:1fr}
+  .lado{position:static}
+  .colunas{grid-template-columns:1fr 1fr}
+  .giz.opc{display:none}
+}
+@media (max-width:700px){
+  .marca span span{display:none}
+  .hero{padding-block:56px 96px}
+  .lista-acoes,.passos{grid-template-columns:1fr}
+  .colunas{grid-template-columns:1fr}
+  .secao{padding-block:72px}
+  .c3,.c2,.c4{grid-column:span 6}
+  .acao{padding:24px 22px 28px;box-shadow:6px 6px 0 var(--sombra-cor)}
+  .pautada{padding:16px 18px 16px 72px}
+  .pautada::before{left:60%}
+  .giz.opc2{display:none}
+  .instr,.opcoes,.q-campo,.q-erro,.contador,.matriz-linha{margin-left:0}
+  .ganhos{grid-template-columns:1fr}
+  .mesa{grid-template-columns:1fr}
+  .peca-story img{max-width:280px}
+  .fita-obra span{font-size:.8125rem}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="f-giz" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="ondas"/>
+    <feDisplacementMap in="SourceGraphic" in2="ondas" scale="5" xChannelSelector="R" yChannelSelector="G" result="torto"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11" result="grao"/>
+    <feColorMatrix in="grao" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.6 0 0 0 1.85" result="mascara"/>
+    <feComposite in="torto" in2="mascara" operator="in"/>
+  </filter>
+</svg>
+
+<header class="faixa topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Página inicial do projeto">
+      <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">
+        <rect width="44" height="44" rx="12" fill="#1E2A4A"/>
+        <circle cx="13" cy="14" r="5" fill="#FFC83D"/><circle cx="31" cy="14" r="5" fill="#F27BB4"/><circle cx="13" cy="31" r="5" fill="#4DB3EB"/><circle cx="31" cy="31" r="5" fill="#8DCB4A"/>
+      </svg>
+      <span><strong>Qualidade e Equidade na Educação Infantil</strong><span>Consulta nacional e monitoramento</span></span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#projeto">O projeto</a>
+      <a href="#acoes">Ações</a>
+      <a href="#consulta">Consulta</a>
+      <a href="#adesao">Termo de adesão</a>
+      <a class="btn btn-primario" href="#cadastro">Entrar</a>
+    </nav>
+  </div>
+</header>
+
+<main id="vista-inicio">
+  <section class="faixa hero pontilhado" id="inicio" aria-labelledby="t-hero">
+    <svg class="giz" data-forma="asterisco" data-seed="2" style="color:var(--amarelo);width:110px;left:3%;top:30px" stroke-width="12"></svg>
+    <svg class="giz opc2" data-forma="rabisco" data-seed="5" style="color:var(--rosa);width:230px;left:15%;top:-90px;transform:rotate(-12deg)"></svg>
+    <svg class="giz opc" data-forma="caixa" data-seed="7" style="color:var(--amarelo);width:180px;left:36%;top:-70px;transform:rotate(-14deg)"></svg>
+    <svg class="giz opc2" data-forma="mancha" data-seed="3" style="color:var(--azul);width:220px;right:24%;top:-120px"></svg>
+    <svg class="giz opc" data-forma="caixa" data-seed="9" style="color:var(--rosa);width:200px;right:6%;top:-40px;transform:rotate(8deg)"></svg>
+    <svg class="giz" data-forma="mancha" data-seed="8" style="color:var(--verde);width:200px;right:-70px;top:-60px"></svg>
+    <svg class="giz opc" data-forma="espiral" data-seed="4" style="color:var(--azul);width:160px;right:-40px;top:42%"></svg>
+    <svg class="giz opc" data-forma="caixa" data-seed="12" style="color:var(--lilas);width:170px;left:-70px;top:34%;transform:rotate(-6deg)"></svg>
+    <svg class="giz" data-forma="triangulo" data-seed="6" style="color:var(--azul);width:200px;left:-30px;bottom:-70px;transform:rotate(10deg)"></svg>
+    <svg class="giz opc2" data-forma="mola" data-seed="1" style="color:var(--verde);width:220px;left:20%;bottom:-36px"></svg>
+    <svg class="giz opc2" data-forma="flor" data-seed="1" style="color:var(--amarelo);width:190px;left:47%;bottom:-96px"></svg>
+    <svg class="giz" data-forma="mancha" data-seed="11" style="color:var(--rosa);width:250px;right:9%;bottom:-150px"></svg>
+    <svg class="giz opc" data-forma="rabisco" data-seed="13" style="color:var(--laranja);width:170px;right:-50px;bottom:12%;transform:rotate(80deg)"></svg>
+    <div class="wrap">
+      <p class="rotulo">Projeto de pesquisa e apoio às redes de ensino</p>
+      <h1 id="t-hero">Promoção da Qualidade e Equidade na Educação Infantil</h1>
+      <p class="sub">Consulta nacional e monitoramento do uso de indicadores de qualidade à luz dos PNQEEI (2024)</p>
+      <div class="acoes">
+        <a class="btn btn-primario" href="#cadastro">Entrar</a>
+        <a class="btn btn-secundario" href="#projeto">Conhecer o projeto</a>
+      </div>
+      <div class="assinaturas" aria-label="Instituições">
+        <div class="grupo"><b>Apoio</b><div class="logos"><span class="logo">UFC</span></div></div>
+        <div class="grupo"><b>Realização</b><div class="logos"><span class="logo">MEC</span><span class="logo">Governo Federal</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa secao projeto" id="projeto" aria-labelledby="t-projeto">
+    <svg class="giz opc" data-forma="espiral" data-seed="9" style="color:var(--lilas);width:120px;right:-30px;top:40px"></svg>
+    <div class="wrap">
+      <div class="texto">
+        <h2 id="t-projeto"><span class="titulo-giz">Sobre o projeto<svg viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true" class="giz-inline" style="color:var(--amarelo)"><path vector-effect="non-scaling-stroke" stroke-width="10" d="M6 26C70 14 160 22 294 12"/></svg></span></h2>
+        <p class="apoio">Em 2024, o Ministério da Educação publicou os Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil, os PNQEEI. Eles descrevem as condições que creches e pré-escolas devem oferecer para que todas as crianças tenham acesso a uma educação de qualidade.</p>
+        <p>Este projeto acompanha como esses parâmetros chegam às redes de ensino. Para isso, ouve quem faz a educação infantil acontecer, em todo o país, e monitora como as redes usam indicadores de qualidade para planejar e avaliar o atendimento às crianças.</p>
+      </div>
+      <aside class="pautada" aria-label="Resumo do projeto">
+        <h3>Em resumo</h3>
+        <ul>
+          <li>Ouvir secretarias, gestores e profissionais sobre os PNQEEI.</li>
+          <li>Acompanhar o uso de indicadores de qualidade pelas redes.</li>
+          <li>Produzir informação para apoiar a política de educação infantil.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="faixa secao acoes-sec" id="acoes" aria-labelledby="t-acoes">
+    <svg class="giz opc" data-forma="mola" data-seed="3" style="color:var(--azul);width:200px;right:4%;top:56px"></svg>
+    <div class="wrap">
+      <div class="cab">
+        <h2 id="t-acoes">Duas ações, um objetivo</h2>
+        <p class="apoio">As duas frentes se complementam: a consulta mostra o que as redes pensam e precisam; o monitoramento mostra o que já está acontecendo na prática.</p>
+      </div>
+      <div class="lista-acoes">
+        <article class="acao" style="--sombra-cor:var(--amarelo);--ponto-cor:var(--amarelo);--tag-fundo:var(--amarelo-100);--tag-texto:var(--amarelo-700)">
+          <svg class="giz-inline ilustra" data-forma="lista" viewBox="0 0 150 110" aria-hidden="true" style="color:var(--amarelo)"></svg>
+          <span class="tag">Ação 1</span>
+          <h3>Consulta nacional</h3>
+          <p>Questionários para secretarias de educação, gestores e profissionais das instituições. O objetivo é entender como os PNQEEI são conhecidos e usados, e o que falta para colocá-los em prática.</p>
+          <ul>
+            <li>Participação de redes municipais e estaduais de todo o país.</li>
+            <li>Respostas por cargo ou função, para comparar pontos de vista.</li>
+            <li>Resultados devolvidos às redes participantes.</li>
+          </ul>
+        </article>
+        <article class="acao" style="--sombra-cor:var(--verde);--ponto-cor:var(--verde);--tag-fundo:var(--verde-100);--tag-texto:var(--verde-700)">
+          <svg class="giz-inline ilustra" data-forma="barras" viewBox="0 0 150 110" aria-hidden="true" style="color:var(--verde)"></svg>
+          <span class="tag">Ação 2</span>
+          <h3>Monitoramento do uso de indicadores</h3>
+          <p>Acompanhamento de como as redes usam indicadores de qualidade: quais instrumentos aplicam, com que frequência e como os resultados orientam decisões.</p>
+          <ul>
+            <li>Acompanhamento ao longo do tempo, não uma foto única.</li>
+            <li>Indicadores alinhados aos parâmetros de 2024.</li>
+            <li>Painéis para as redes acompanharem a própria evolução.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa secao destaque" id="agora" aria-labelledby="t-agora">
+    <svg class="giz opc" data-forma="asterisco" data-seed="5" style="color:var(--laranja);width:90px;right:3%;top:64px" stroke-width="12"></svg>
+    <div class="wrap">
+      <div class="cab">
+        <h2 id="t-agora">Para as secretarias de educação</h2>
+        <p class="apoio">Responda à consulta da sua rede e formalize a adesão aos parâmetros e aos indicadores de qualidade.</p>
+      </div>
+      <div class="lista-acoes">
+        <article class="acao" style="--sombra-cor:var(--laranja);--ponto-cor:var(--laranja)">
+          <svg class="giz-inline ilustra" data-forma="lista" viewBox="0 0 150 110" aria-hidden="true" style="color:var(--laranja)"></svg>
+          <span class="tag tag-andamento">Questionário em andamento</span>
+          <h3>Consulta às redes estaduais e do DF</h3>
+          <p>Questionário sobre o uso do INDIQUE e o alinhamento aos PNQEEI. É uma versão preliminar: perguntas e opções ainda podem mudar.</p>
+          <a class="btn btn-primario" href="#consulta">Ver o questionário</a>
+        </article>
+        <article class="acao" style="--sombra-cor:var(--rosa);--ponto-cor:var(--rosa);--tag-fundo:var(--rosa-100);--tag-texto:var(--rosa-700)">
+          <canvas class="mini-selo" data-selo width="264" height="264" role="img" aria-label="Selo de adesão aos PNQEEI"></canvas>
+          <span class="tag">Termo de adesão</span>
+          <h3>Selo de adesão aos PNQEEI e ao INDIQUE</h3>
+          <p>Secretárias e secretários de educação assinam o termo e recebem o selo da rede, um certificado para imprimir e posts para as redes sociais.</p>
+          <a class="btn btn-primario" href="#adesao">Aderir</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa secao participa" id="participa" aria-labelledby="t-participa">
+    <div class="wrap">
+      <div class="cab">
+        <h2 id="t-participa">Quem participa</h2>
+        <p class="apoio">Profissionais que planejam, coordenam e fazem a educação infantil no dia a dia.</p>
+      </div>
+      <div class="chips">
+        <span class="chip" style="--tag-fundo:var(--amarelo-100);--tag-texto:var(--amarelo-700)">Secretários municipais de educação</span>
+        <span class="chip" style="--tag-fundo:var(--rosa-100);--tag-texto:var(--rosa-700)">Secretários estaduais de educação</span>
+        <span class="chip" style="--tag-fundo:var(--azul-100);--tag-texto:var(--azul-700)">Equipes técnicas das secretarias</span>
+        <span class="chip" style="--tag-fundo:var(--verde-100);--tag-texto:var(--verde-700)">Diretores de creches e pré-escolas</span>
+        <span class="chip" style="--tag-fundo:var(--lilas-100);--tag-texto:var(--lilas-700)">Coordenadores pedagógicos</span>
+        <span class="chip" style="--tag-fundo:var(--laranja-100);--tag-texto:var(--laranja-700)">Professores</span>
+        <span class="chip" style="--tag-fundo:var(--rosa-100);--tag-texto:var(--rosa-700)">Auxiliares e assistentes</span>
+        <span class="chip" style="--tag-fundo:var(--azul-100);--tag-texto:var(--azul-700)">Conselheiros de educação</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa secao participar pontilhado" id="participar" aria-labelledby="t-participar" style="padding-top:88px">
+    <svg class="giz opc" data-forma="asterisco" data-seed="8" style="color:var(--rosa);width:80px;left:2%;top:70px" stroke-width="12"></svg>
+    <div class="wrap">
+      <div class="cab"><h2 id="t-participar">Como participar</h2></div>
+      <ol class="passos">
+        <li><span class="num"><svg class="giz-inline" data-forma="mancha" data-seed="21" viewBox="0 0 200 200" aria-hidden="true" style="color:var(--amarelo)"></svg>1</span><h3>Entre e faça seu cadastro</h3><p>Informe seus dados e o cargo ou a função que você exerce. Leva cerca de 5 minutos.</p></li>
+        <li><span class="num"><svg class="giz-inline" data-forma="mancha" data-seed="22" viewBox="0 0 200 200" aria-hidden="true" style="color:var(--rosa)"></svg>2</span><h3>Responda à consulta</h3><p>As perguntas mudam conforme o seu cargo. Você pode salvar e continuar depois.</p></li>
+        <li><span class="num"><svg class="giz-inline" data-forma="mancha" data-seed="23" viewBox="0 0 200 200" aria-hidden="true" style="color:var(--azul)"></svg>3</span><h3>Acompanhe os resultados</h3><p>Avisamos por e-mail quando os resultados da sua rede estiverem disponíveis.</p></li>
+      </ol>
+      <aside class="pautada nota-dados" aria-label="Sobre seus dados">
+        <h3>Sobre seus dados</h3>
+        <p>Os dados do cadastro servem para confirmar que cada pessoa responde uma única vez e para organizar os resultados por rede e por cargo. Eles não são publicados de forma que identifique você.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="faixa chamada" aria-labelledby="t-chamada">
+    <svg class="giz" data-forma="flor" data-seed="2" style="color:var(--rosa);width:150px;right:4%;top:-30px"></svg>
+    <div class="wrap">
+      <div class="cab"><h2 id="t-chamada">Sua rede já está participando?</h2><p class="apoio">Faça seu cadastro e responda à consulta.</p></div>
+      <a class="btn btn-primario" href="#cadastro">Entrar</a>
+    </div>
+  </section>
+</main>
+
+<main id="vista-cadastro" hidden>
+  <section class="faixa cadastro pontilhado" aria-labelledby="t-cadastro">
+    <svg class="giz opc" data-forma="rabisco" data-seed="17" style="color:var(--amarelo);width:200px;left:-70px;bottom:120px;transform:rotate(20deg)"></svg>
+    <svg class="giz opc" data-forma="espiral" data-seed="6" style="color:var(--rosa);width:120px;right:-30px;top:60px"></svg>
+    <div class="wrap">
+      <div class="lado">
+        <a class="voltar" href="#inicio">Voltar para o início</a>
+        <h1 id="t-cadastro">Crie seu cadastro</h1>
+        <p class="apoio" style="font-size:1.0625rem">Com o cadastro você entra no sistema, responde à consulta e acompanha os resultados. Campos sem a indicação “opcional” são obrigatórios.</p>
+        <ol class="etapas" aria-label="Partes do cadastro">
+          <li data-etapa="pessoais"><a href="#sec-pessoais"><span class="marcador">1</span>Dados pessoais</a></li>
+          <li data-etapa="endereco"><a href="#sec-endereco"><span class="marcador">2</span>Endereço</a></li>
+          <li data-etapa="atuacao"><a href="#sec-atuacao"><span class="marcador">3</span>Atuação</a></li>
+          <li data-etapa="acesso"><a href="#sec-acesso"><span class="marcador">4</span>Acesso</a></li>
+        </ol>
+        <aside class="pautada" aria-label="Por que pedimos esses dados">
+          <h3>Por que pedimos isso?</h3>
+          <p>O CPF garante uma resposta por pessoa. O cargo e o endereço permitem organizar os resultados por rede e por região.</p>
+        </aside>
+      </div>
+
+      <div class="form-cartao">
+        <div class="resumo-erros" id="resumo-erros" tabindex="-1" hidden>
+          <h2>Corrija os campos abaixo para continuar</h2>
+          <ul id="lista-erros"></ul>
+        </div>
+
+        <form id="form-cadastro" novalidate>
+          <fieldset id="sec-pessoais" data-etapa="pessoais">
+            <legend><span class="bola" style="--bola:var(--amarelo)">1</span>Dados pessoais</legend>
+            <div class="campo"><label for="nome">Nome completo</label><input id="nome" name="nome" autocomplete="name" required><span class="erro-msg" id="nome-erro" hidden></span></div>
+            <div class="campo c3"><label for="nascimento">Data de nascimento</label><input id="nascimento" name="nascimento" inputmode="numeric" autocomplete="bday" placeholder="dd/mm/aaaa" maxlength="10" aria-describedby="nascimento-dica" required><span class="dica" id="nascimento-dica">Por exemplo, 15/03/1985</span><span class="erro-msg" id="nascimento-erro" hidden></span></div>
+            <div class="campo c3"><label for="cpf">CPF</label><input id="cpf" name="cpf" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" required><span class="erro-msg" id="cpf-erro" hidden></span></div>
+          </fieldset>
+
+          <fieldset id="sec-endereco" data-etapa="endereco">
+            <legend><span class="bola" style="--bola:var(--rosa)">2</span>Endereço</legend>
+            <div class="campo c2"><label for="cep">CEP</label><input id="cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required><span class="erro-msg" id="cep-erro" hidden></span></div>
+            <div class="campo c4"><label for="logradouro">Rua, avenida ou travessa</label><input id="logradouro" name="logradouro" autocomplete="address-line1" required><span class="erro-msg" id="logradouro-erro" hidden></span></div>
+            <div class="campo c2"><label for="numero">Número</label><input id="numero" name="numero" inputmode="numeric" aria-describedby="numero-dica" required><span class="dica" id="numero-dica">Sem número? Escreva S/N.</span><span class="erro-msg" id="numero-erro" hidden></span></div>
+            <div class="campo c4"><label for="complemento">Complemento <small>(opcional)</small></label><input id="complemento" name="complemento" autocomplete="address-line2"></div>
+            <div class="campo c3"><label for="bairro">Bairro</label><input id="bairro" name="bairro" required><span class="erro-msg" id="bairro-erro" hidden></span></div>
+            <div class="campo c3"><label for="municipio">Município</label><input id="municipio" name="municipio" autocomplete="address-level2" required><span class="erro-msg" id="municipio-erro" hidden></span></div>
+            <div class="campo c2"><label for="uf">Estado</label>
+              <select id="uf" name="uf" autocomplete="address-level1" required>
+                <option value="">Selecione</option>
+                <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+              </select><span class="erro-msg" id="uf-erro" hidden></span></div>
+          </fieldset>
+
+          <fieldset id="sec-atuacao" data-etapa="atuacao">
+            <legend><span class="bola" style="--bola:var(--azul)">3</span>Atuação</legend>
+            <div class="campo c4"><label for="cargo">Cargo ou função</label>
+              <select id="cargo" name="cargo" required>
+                <option value="">Selecione</option>
+                <optgroup label="Gestão da rede">
+                  <option>Secretário(a) municipal de educação</option>
+                  <option>Secretário(a) estadual de educação</option>
+                  <option>Equipe técnica da secretaria</option>
+                </optgroup>
+                <optgroup label="Instituição de educação infantil">
+                  <option>Diretor(a)</option>
+                  <option>Coordenador(a) pedagógico(a)</option>
+                  <option>Professor(a)</option>
+                  <option>Auxiliar ou assistente de educação infantil</option>
+                </optgroup>
+                <optgroup label="Outros">
+                  <option>Conselheiro(a) de educação</option>
+                  <option value="outro">Outro cargo ou função</option>
+                </optgroup>
+              </select><span class="erro-msg" id="cargo-erro" hidden></span></div>
+            <div class="campo c4" id="campo-outro" hidden><label for="cargo-outro">Qual cargo ou função?</label><input id="cargo-outro" name="cargo-outro"><span class="erro-msg" id="cargo-outro-erro" hidden></span></div>
+          </fieldset>
+
+          <fieldset id="sec-acesso" data-etapa="acesso">
+            <legend><span class="bola" style="--bola:var(--verde)">4</span>Acesso</legend>
+            <p class="legenda-ajuda">Você vai usar o e-mail e a senha para entrar no sistema.</p>
+            <div class="campo"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required><span class="erro-msg" id="email-erro" hidden></span></div>
+            <div class="campo c3"><label for="senha">Senha</label><div class="senha-linha"><input id="senha" name="senha" type="password" autocomplete="new-password" aria-describedby="senha-dica" required><button type="button" class="mostrar" data-alvo="senha" aria-pressed="false">Mostrar</button></div><span class="dica" id="senha-dica">Pelo menos 8 caracteres, com letras e números.</span><span class="erro-msg" id="senha-erro" hidden></span></div>
+            <div class="campo c3"><label for="senha2">Repita a senha</label><div class="senha-linha"><input id="senha2" name="senha2" type="password" autocomplete="new-password" required><button type="button" class="mostrar" data-alvo="senha2" aria-pressed="false">Mostrar</button></div><span class="erro-msg" id="senha2-erro" hidden></span></div>
+            <label class="consentimento" id="campo-aceite" for="aceite"><input type="checkbox" id="aceite" name="aceite"><span>Li e concordo com a <a href="#cadastro">política de privacidade</a> do projeto e autorizo o uso dos meus dados para as finalidades descritas nela.</span></label>
+            <span class="erro-msg" id="aceite-erro" style="grid-column:1/-1;color:var(--erro);font-weight:600" hidden></span>
+          </fieldset>
+
+          <div class="enviar">
+            <button class="btn btn-primario" type="submit">Concluir cadastro</button>
+            <span class="dica">Protótipo: nenhum dado é enviado ou guardado.</span>
+          </div>
+        </form>
+
+        <div class="sucesso" id="sucesso" tabindex="-1" hidden>
+          <svg class="giz-inline" data-forma="flor" data-seed="3" viewBox="0 0 200 200" width="120" height="120" aria-hidden="true" style="color:var(--amarelo)"></svg>
+          <h2>Cadastro concluído</h2>
+          <p class="apoio">Nesta demonstração, nenhum dado foi enviado ou guardado. No sistema real, a próxima tela seria a consulta.</p>
+          <a class="btn btn-secundario" href="#inicio">Voltar para o início</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="vista-consulta" hidden>
+  <div class="fita-obra" role="note"><span>Questionário em andamento · versão preliminar</span></div>
+  <section class="faixa consulta pontilhado" aria-labelledby="t-consulta">
+    <svg class="giz opc" data-forma="espiral" data-seed="14" style="color:var(--laranja);width:120px;right:-34px;top:40px"></svg>
+    <svg class="giz opc" data-forma="triangulo" data-seed="4" style="color:var(--verde);width:170px;left:-60px;bottom:80px;transform:rotate(-8deg)"></svg>
+    <div class="wrap">
+      <div class="lado">
+        <a class="voltar" href="#inicio">Voltar para o início</a>
+        <h1 id="t-consulta">Consulta sobre o uso do INDIQUE e o alinhamento aos PNQEEI</h1>
+        <p class="carimbo">Em andamento</p>
+        <p class="apoio" style="font-size:1.0625rem">Para as redes estaduais e do Distrito Federal. A Secretaria responde em nome da instituição, de preferência com a equipe de Educação Infantil.</p>
+        <ol class="etapas" id="q-etapas" aria-label="Partes do questionário"></ol>
+        <p class="dica" id="q-status" aria-live="polite"></p>
+        <div class="ferramentas">
+          <button type="button" class="btn-texto" id="q-exemplo">Preencher com respostas fictícias</button>
+          <button type="button" class="btn-texto" id="q-limpar">Apagar respostas</button>
+        </div>
+      </div>
+      <div class="form-cartao">
+        <form id="form-consulta" novalidate>
+          <div id="q-corpo"></div>
+          <div class="q-nav">
+            <button type="button" class="btn btn-secundario" id="q-ant">Voltar</button>
+            <button type="button" class="btn btn-primario" id="q-prox">Começar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="vista-adesao" hidden>
+  <section class="faixa adesao-topo pontilhado" aria-labelledby="t-adesao">
+    <svg class="giz" data-forma="mancha" data-seed="15" style="color:var(--amarelo);width:300px;right:8%;top:30px;opacity:.55"></svg>
+    <svg class="giz opc" data-forma="asterisco" data-seed="3" style="color:var(--rosa);width:90px;right:2%;top:24px" stroke-width="12"></svg>
+    <svg class="giz opc2" data-forma="mola" data-seed="7" style="color:var(--azul);width:200px;left:38%;bottom:-30px"></svg>
+    <svg class="giz opc" data-forma="flor" data-seed="5" style="color:var(--verde);width:150px;right:-40px;bottom:-40px"></svg>
+    <div class="wrap">
+      <div class="texto">
+        <a class="voltar" href="#inicio">Voltar para o início</a>
+        <p class="rotulo">Termo de adesão para secretarias de educação</p>
+        <h1 id="t-adesao">Sua rede pela qualidade e equidade na Educação Infantil</h1>
+        <p class="apoio">Secretárias e secretários de educação estaduais, distritais e municipais podem aderir aos PNQEEI e aos Indicadores da Qualidade na Educação Infantil. A adesão é voluntária e é feita pelo(a) titular da pasta.</p>
+        <ul class="ganhos">
+          <li style="--c:var(--amarelo)">Selo de adesão para a comunicação da rede</li>
+          <li style="--c:var(--rosa)">Certificado em PDF para imprimir</li>
+          <li style="--c:var(--azul)">Post e story prontos para as redes sociais</li>
+          <li style="--c:var(--verde)">Código para conferir a autenticidade</li>
+        </ul>
+      </div>
+      <div class="selo-palco"><canvas data-selo width="800" height="800" role="img" aria-label="Selo de adesão: Rede comprometida com a qualidade e a equidade na Educação Infantil, PNQEEI"></canvas></div>
+    </div>
+  </section>
+
+  <section class="faixa secao-adesao" aria-labelledby="t-termo">
+    <div class="wrap adesao-grid">
+      <div class="termo-col">
+        <div class="cab"><h2 id="t-termo">Termo de adesão</h2><p class="carimbo">Minuta</p></div>
+        <p class="dica">Texto provisório, sujeito a revisão jurídica e validação pelo MEC. Os trechos destacados são preenchidos com os dados do formulário.</p>
+        <div class="pautada termo" tabindex="0" role="region" aria-label="Texto do termo de adesão">
+          <h3>Termo de adesão aos PNQEEI e aos Indicadores da Qualidade na Educação Infantil</h3>
+          <p>Pelo presente termo, a <span class="lacuna" data-t="secretaria">Secretaria de Educação</span>, representada por seu(sua) titular, <span class="lacuna" data-t="nome">nome do(a) secretário(a)</span>, manifesta sua adesão voluntária aos Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil (PNQEEI, 2024) e aos instrumentos de autoavaliação indicados neste termo, nas condições a seguir.</p>
+          <h3>1. Objeto</h3>
+          <p>A adesão expressa o compromisso público da rede com a promoção da qualidade e da equidade na Educação Infantil, tendo os PNQEEI como referência para as suas políticas, em consonância com a Resolução CNE/CEB nº 1/2024. Instrumentos incluídos: <span class="lacuna" data-t="instrumentos">PNQEEI</span>.</p>
+          <h3>2. Compromissos da Secretaria</h3>
+          <ol type="a">
+            <li>Divulgar os PNQEEI às equipes técnicas, aos gestores e aos profissionais da Educação Infantil da rede.</li>
+            <li>Considerar os PNQEEI no planejamento, nas orientações e nos documentos da rede.</li>
+            <li>Promover a autoavaliação institucional das creches e pré-escolas com os Indicadores da Qualidade incluídos nesta adesão.</li>
+            <li>Usar os resultados da autoavaliação para elaborar e acompanhar planos de ação.</li>
+            <li>Indicar uma pessoa de referência para o diálogo com o projeto.</li>
+            <li>Participar da consulta nacional e do monitoramento promovidos pelo projeto.</li>
+          </ol>
+          <h3>3. Compromissos da coordenação do projeto</h3>
+          <p>Disponibilizar materiais de apoio e orientações, devolver às redes os resultados agregados da consulta e do monitoramento e emitir o certificado e o selo de adesão.</p>
+          <h3>4. Natureza e vigência</h3>
+          <p>A adesão é voluntária, não envolve repasse de recursos entre as partes e pode ser encerrada a qualquer tempo, mediante comunicação. Vigência: <span class="lacuna">a definir</span>.</p>
+          <h3>5. Uso do selo</h3>
+          <p>A Secretaria pode usar o selo de adesão em seus materiais de comunicação enquanto a adesão estiver vigente.</p>
+          <h3>6. Dados pessoais</h3>
+          <p>Os dados informados são usados apenas para registrar a adesão e emitir o certificado, conforme a Lei nº 13.709/2018 (LGPD).</p>
+        </div>
+      </div>
+
+      <div class="form-cartao">
+        <div class="resumo-erros" id="ad-resumo" tabindex="-1" hidden>
+          <h2>Corrija os campos abaixo para assinar</h2>
+          <ul id="ad-lista-erros"></ul>
+        </div>
+        <form id="form-adesao" novalidate>
+          <fieldset>
+            <legend><span class="bola" style="--bola:var(--amarelo)">1</span>Secretaria</legend>
+            <div class="campo" role="radiogroup" aria-labelledby="ad-esfera-t" id="ad-esfera">
+              <label id="ad-esfera-t">Esfera</label>
+              <div class="opcoes esferas">
+                <label class="opcao pilula"><input type="radio" name="ad-esfera" value="estadual">Estadual</label>
+                <label class="opcao pilula"><input type="radio" name="ad-esfera" value="distrital">Distrito Federal</label>
+                <label class="opcao pilula"><input type="radio" name="ad-esfera" value="municipal">Municipal</label>
+              </div>
+              <span class="erro-msg" id="ad-esfera-erro" hidden></span>
+            </div>
+            <div class="campo c2"><label for="ad-uf">Estado</label><select id="ad-uf"></select><span class="erro-msg" id="ad-uf-erro" hidden></span></div>
+            <div class="campo c4" id="ad-mun-box" hidden><label for="ad-mun">Município</label><input id="ad-mun" autocomplete="address-level2"><span class="erro-msg" id="ad-mun-erro" hidden></span></div>
+            <div class="campo"><label for="ad-sec">Nome oficial da Secretaria</label><input id="ad-sec" aria-describedby="ad-sec-dica"><span class="dica" id="ad-sec-dica">Preenchemos uma sugestão. Confira e ajuste para o nome oficial, que vai no certificado.</span><span class="erro-msg" id="ad-sec-erro" hidden></span></div>
+          </fieldset>
+          <fieldset>
+            <legend><span class="bola" style="--bola:var(--rosa)">2</span>Titular da pasta</legend>
+            <div class="campo"><label for="ad-nome">Nome completo do(a) secretário(a)</label><input id="ad-nome" autocomplete="name"><span class="erro-msg" id="ad-nome-erro" hidden></span></div>
+            <div class="campo c3"><label for="ad-cargo">Cargo</label><select id="ad-cargo"><option value="">Selecione</option><option>Secretário(a) de Educação</option><option>Secretário(a) de Educação em exercício</option></select><span class="erro-msg" id="ad-cargo-erro" hidden></span></div>
+            <div class="campo c3"><label for="ad-email">E-mail institucional</label><input id="ad-email" type="email" autocomplete="email"><span class="erro-msg" id="ad-email-erro" hidden></span></div>
+          </fieldset>
+          <fieldset>
+            <legend><span class="bola" style="--bola:var(--azul)">3</span>Instrumentos</legend>
+            <p class="legenda-ajuda">A adesão aos PNQEEI é a base. Marque também os indicadores que a rede vai usar na autoavaliação.</p>
+            <div class="campo">
+              <div class="opcoes">
+                <label class="opcao"><input type="checkbox" checked disabled><span><b>PNQEEI</b>: Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil (2024)</span></label>
+                <label class="opcao"><input type="checkbox" id="ad-indique" checked><span><b>INDIQUE</b>: Indicadores da Qualidade na Educação Infantil</span></label>
+                <label class="opcao"><input type="checkbox" id="ad-rr"><span><b>INDIQUE Relações Raciais</b>: Indicadores da Qualidade na Educação – Relações Raciais na Educação Infantil</span></label>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><span class="bola" style="--bola:var(--verde)">4</span>Assinatura</legend>
+            <div class="campo"><label for="ad-assina">Para assinar, digite seu nome completo</label><input id="ad-assina" autocomplete="off" aria-describedby="ad-assina-dica"><span class="dica" id="ad-assina-dica">Deve ser igual ao nome do(a) titular informado acima.</span><span class="erro-msg" id="ad-assina-erro" hidden></span></div>
+            <label class="consentimento" id="ad-decl-box" for="ad-decl"><input type="checkbox" id="ad-decl"><span>Declaro que sou titular (ou estou em exercício) da Secretaria indicada, que li o termo de adesão e que concordo com ele em nome da Secretaria.</span></label>
+            <span class="erro-msg" id="ad-decl-erro" style="grid-column:1/-1;color:var(--erro);font-weight:600" hidden></span>
+          </fieldset>
+          <div class="enviar">
+            <button class="btn btn-primario" type="submit">Assinar e emitir certificado</button>
+            <span class="dica">Protótipo: nada é enviado nem guardado.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="faixa resultado-adesao pontilhado" id="adesao-resultado" aria-labelledby="t-resultado" hidden>
+    <svg class="giz opc" data-forma="flor" data-seed="8" style="color:var(--amarelo);width:140px;right:2%;top:30px"></svg>
+    <div class="wrap">
+      <div class="cab">
+        <p class="rotulo">Adesão registrada nesta demonstração</p>
+        <h2 id="t-resultado" tabindex="-1">Pronto! O selo da sua rede está aqui.</h2>
+        <p class="apoio" id="res-texto"></p>
+        <p>Código de verificação: <span class="codigo" id="res-codigo"></span></p>
+      </div>
+      <div class="mesa">
+        <figure class="peca peca-cert" style="--c:var(--amarelo)">
+          <img id="prev-cert" alt="Prévia do certificado de adesão">
+          <figcaption>Certificado para impressão · A4 paisagem</figcaption>
+          <div class="baixar" data-baixar hidden><button type="button" class="btn btn-primario" data-arq="cert-pdf">Baixar PDF</button><button type="button" class="btn btn-secundario" data-arq="cert-png">Baixar PNG</button></div>
+        </figure>
+        <figure class="peca peca-post" style="--c:var(--rosa)">
+          <img id="prev-post" alt="Prévia do post quadrado para redes sociais">
+          <figcaption>Post para feed · 1080 × 1080</figcaption>
+          <div class="baixar" data-baixar hidden><button type="button" class="btn btn-secundario" data-arq="post">Baixar PNG</button></div>
+        </figure>
+        <figure class="peca peca-story" style="--c:var(--azul)">
+          <img id="prev-story" alt="Prévia do story vertical para redes sociais">
+          <figcaption>Story · 1080 × 1920</figcaption>
+          <div class="baixar" data-baixar hidden><button type="button" class="btn btn-secundario" data-arq="story">Baixar PNG</button></div>
+        </figure>
+      </div>
+      <p class="status" id="dl-status" aria-live="polite"></p>
+      <div class="res-rodape">
+        <aside class="pautada legenda-box" aria-labelledby="t-legenda">
+          <h3 id="t-legenda">Sugestão de legenda para o post</h3>
+          <p id="legenda-txt"></p>
+          <p><button type="button" class="btn-texto" id="copiar-legenda">Copiar legenda</button> <span class="dica" id="copiar-status" aria-live="polite"></span></p>
+        </aside>
+        <div class="cab">
+          <h3>O que acontece no sistema real</h3>
+          <p>A adesão seria assinada com a conta gov.br do(a) titular e registrada no servidor do projeto. O código de verificação abriria uma página pública de conferência do certificado.</p>
+          <button type="button" class="btn btn-secundario" id="nova-adesao" style="align-self:flex-start">Fazer outra adesão</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="faixa rodape">
+  <svg class="risco-cores" viewBox="0 0 1200 22" preserveAspectRatio="none" aria-hidden="true" style="filter:url(#f-giz);margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));width:calc(100% + 2 * max(16px,env(safe-area-inset-left,0px)))">
+    <path d="M0 10H300" stroke="#FFC83D" stroke-width="16"/><path d="M300 10H600" stroke="#F27BB4" stroke-width="16"/><path d="M600 10H900" stroke="#4DB3EB" stroke-width="16"/><path d="M900 10H1200" stroke="#8DCB4A" stroke-width="16"/>
+  </svg>
+  <div class="wrap">
+    <div class="colunas">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <a class="marca" href="#inicio">
+          <svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="12" fill="#FCFAF5"/><circle cx="13" cy="14" r="5" fill="#FFC83D"/><circle cx="31" cy="14" r="5" fill="#F27BB4"/><circle cx="13" cy="31" r="5" fill="#4DB3EB"/><circle cx="31" cy="31" r="5" fill="#8DCB4A"/></svg>
+          <span><strong>Qualidade e Equidade na Educação Infantil</strong><span>Consulta nacional e monitoramento</span></span>
+        </a>
+        <p style="color:#BAC2D6;font-size:.9375rem;max-width:30rem">Promoção da Qualidade e Equidade na Educação Infantil: consulta nacional e monitoramento do uso de indicadores de qualidade à luz dos PNQEEI (2024).</p>
+      </div>
+      <div><h4>Projeto</h4><ul><li><a href="#projeto">Sobre o projeto</a></li><li><a href="#acoes">Ações</a></li><li><a href="#participa">Quem participa</a></li></ul></div>
+      <div><h4>Participar</h4><ul><li><a href="#cadastro">Fazer cadastro</a></li><li><a href="#consulta">Consulta às redes</a></li><li><a href="#adesao">Termo de adesão</a></li><li><a href="#participar">Como participar</a></li></ul></div>
+      <div><h4>Transparência</h4><ul><li><a href="#cadastro">Política de privacidade</a></li><li><a href="#inicio">Acessibilidade</a></li><li><a href="#inicio">Fale conosco</a></li></ul></div>
+    </div>
+    <div class="final"><span>Realização: Ministério da Educação. Apoio: Universidade Federal do Ceará.</span><span>Protótipo com textos provisórios</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- Traços de giz gerados por código ---------- */
+  function rng(seed){ var s=seed>>>0||1; return function(){ s=(s+0x6D2B79F5)>>>0; var t=s; t=Math.imul(t^(t>>>15),t|1); t^=t+Math.imul(t^(t>>>7),t|61); return ((t^(t>>>14))>>>0)/4294967296; }; }
+  function f(n){ return Math.round(n*10)/10; }
+  function poly(pts){ return 'M'+pts.map(function(p){return f(p[0])+' '+f(p[1]);}).join('L'); }
+  function suave(pts,fechado){ var d='M'+f(pts[0][0])+' '+f(pts[0][1]); var n=pts.length;
+    for(var i=0;i<(fechado?n:n-1);i++){ var p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];
+      if(!fechado){ p0=pts[Math.max(i-1,0)]; p3=pts[Math.min(i+2,n-1)]; }
+      d+='C'+f(p1[0]+(p2[0]-p0[0])/6)+' '+f(p1[1]+(p2[1]-p0[1])/6)+' '+f(p2[0]-(p3[0]-p1[0])/6)+' '+f(p2[1]-(p3[1]-p1[1])/6)+' '+f(p2[0])+' '+f(p2[1]); }
+    return d+(fechado?'Z':''); }
+  function p(d,w){ return '<path d="'+d+'" stroke-width="'+w+'"/>'; }
+  function cheio(d){ return '<path class="cheio" d="'+d+'"/>'; }
+  var formas={
+    asterisco:function(r){ var s=''; for(var i=0;i<4;i++){ var a=i*Math.PI/4+r()*.15, l=78+r()*14; s+=p('M'+f(100-Math.cos(a)*l)+' '+f(100-Math.sin(a)*l)+'Q'+f(100+r()*8)+' '+f(100+r()*8)+' '+f(100+Math.cos(a)*l)+' '+f(100+Math.sin(a)*l),12); } return [s,'0 0 200 200']; },
+    flor:function(r){ var d=''; for(var i=0;i<6;i++){ var a=i*Math.PI/3-Math.PI/2,l=a-.55,q=a+.55; d+='M100 100Q'+f(100+Math.cos(l)*92)+' '+f(100+Math.sin(l)*92)+' '+f(100+Math.cos(a)*(76+r()*8))+' '+f(100+Math.sin(a)*(76+r()*8))+'Q'+f(100+Math.cos(q)*92)+' '+f(100+Math.sin(q)*92)+' 102 101'; } return [p(d,10)+cheio('M88 100a12 12 0 1 0 24 0a12 12 0 1 0-24 0'),'0 0 200 200']; },
+    espiral:function(r){ var pts=[]; for(var t=0;t<=5.2*Math.PI;t+=.25){ var rr=6+t*5.2; pts.push([100+Math.cos(t)*rr+r()*2,100+Math.sin(t)*rr+r()*2]); } return [p(suave(pts),12),'0 0 200 200']; },
+    mola:function(r){ var pts=[]; for(var t=0;t<=1.0001;t+=.012){ var th=2*Math.PI*4.5*t; pts.push([22+156*t+22*Math.cos(th+Math.PI),74-30*Math.sin(th)+r()*2]); } return [p(suave(pts),10),'0 0 200 140']; },
+    mancha:function(r){ var pts=[],n=9; for(var i=0;i<n;i++){ var a=i/n*2*Math.PI, rr=62+r()*28; pts.push([100+Math.cos(a)*rr,100+Math.sin(a)*rr*.86]); } return [cheio(suave(pts,true)),'0 0 200 200']; },
+    rabisco:function(r){ var pts=[],x=22,cima=true; while(x<180){ var t=(x-100)/80, h=Math.sqrt(Math.max(0,1-t*t)); pts.push([x+r()*3, cima?100-66*h+r()*6:100+60*h-r()*6]); x+=6.5+r()*2; cima=!cima; } return [p(poly(pts),10),'0 0 200 200']; },
+    caixa:function(r){ var o=p('M30 70L130 64L136 170L36 176Z',7)+p('M30 70L72 32L172 28L130 64',7)+p('M172 28L176 132L136 170',7); var h=[],y=78,e=true; while(y<168){ h.push([e?36:128,y]); y+=8; e=!e; } return [o+p(poly(h),6),'0 0 200 200']; },
+    triangulo:function(r){ var o=p('M100 22L182 170L18 172Z',7); var h=[],y=40,e=true; while(y<166){ var k=(y-22)/150, xl=100-82*k+6, xr=100+82*k-6; h.push([e?xl:xr,y]); y+=8; e=!e; } return [o+p(poly(h),6),'0 0 200 200']; },
+    lista:function(r){ var s=''; for(var i=0;i<3;i++){ var y=14+i*32; s+=p('M8 '+y+'h22v22h-22z',5); if(i<2) s+=p('M12 '+(y+12)+'l7 7l14-18',6); s+=p('M46 '+(y+11)+'C80 '+(y+8)+' 110 '+(y+14)+' 142 '+(y+10),6); } return [s,'0 0 150 110']; },
+    barras:function(r){ var s='', hs=[44,70,58,92]; for(var i=0;i<4;i++){ var x=12+i*34, h=hs[i], top=100-h; s+=p('M'+x+' 100V'+top+'H'+(x+24)+'V100',5); var z=[],y=top+7,e=true; while(y<98){ z.push([e?x+3:x+21,y]); y+=7; e=!e; } s+=p(poly(z),4); } s+=p('M4 102H146',5); return [s,'0 0 150 110']; }
+  };
+  window.PNQ={formas:formas,rng:rng};
+  document.querySelectorAll('svg[data-forma]').forEach(function(el){
+    var g=formas[el.dataset.forma]; if(!g) return; var r=rng(parseInt(el.dataset.seed||'1',10)*7919);
+    var out=g(r); el.innerHTML=out[0]; if(!el.getAttribute('viewBox')) el.setAttribute('viewBox',out[1]);
+    if(!el.getAttribute('aria-hidden')) el.setAttribute('aria-hidden','true');
+  });
+
+  /* ---------- Navegação entre início e cadastro ---------- */
+  var vistas={inicio:document.getElementById('vista-inicio'),cadastro:document.getElementById('vista-cadastro'),consulta:document.getElementById('vista-consulta'),adesao:document.getElementById('vista-adesao')};
+  var atual='inicio';
+  function rota(){ var h=decodeURIComponent(location.hash.replace('#',''));
+    var v = (h==='cadastro'||h.indexOf('sec-')===0)?'cadastro' : h==='consulta'?'consulta' : h==='adesao'?'adesao' : 'inicio';
+    var mudou = v!==atual; atual=v;
+    Object.keys(vistas).forEach(function(k){ vistas[k].hidden = k!==v; });
+    document.dispatchEvent(new CustomEvent('pnq:vista',{detail:v}));
+    if(v==='inicio'){ var alvo=h&&document.getElementById(h); if(alvo && h!=='inicio') alvo.scrollIntoView(); else window.scrollTo(0,0); }
+    else if(v==='cadastro' && h!=='cadastro'){ var s=document.getElementById(h); if(s) s.scrollIntoView(); }
+    else if(mudou || h===v) window.scrollTo(0,0);
+  }
+  window.PNQ.rota=rota;
+  window.addEventListener('hashchange',rota);
+  window.addEventListener('DOMContentLoaded',rota);
+
+  /* ---------- Cadastro ---------- */
+  var form=document.getElementById('form-cadastro'); if(!form) return;
+  function $(id){ return document.getElementById(id); }
+  function soDigitos(v){ return v.replace(/\D/g,''); }
+  function mascara(el,fn){ el.addEventListener('input',function(){ var pos=el.value.length; el.value=fn(soDigitos(el.value)); }); }
+  mascara($('cpf'),function(d){ d=d.slice(0,11); return d.replace(/^(\d{3})(\d)/,'$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1-$2'); });
+  mascara($('cep'),function(d){ d=d.slice(0,8); return d.length>5? d.slice(0,5)+'-'+d.slice(5): d; });
+  mascara($('nascimento'),function(d){ d=d.slice(0,8); if(d.length>4) return d.slice(0,2)+'/'+d.slice(2,4)+'/'+d.slice(4); if(d.length>2) return d.slice(0,2)+'/'+d.slice(2); return d; });
+
+  function cpfValido(v){ var c=soDigitos(v); if(c.length!==11||/^(\d)\1{10}$/.test(c)) return false;
+    for(var t=9;t<11;t++){ var s=0; for(var i=0;i<t;i++) s+=parseInt(c[i],10)*(t+1-i); var dv=(s*10)%11%10; if(dv!==parseInt(c[t],10)) return false; } return true; }
+  function dataValida(v){ var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(v); if(!m) return 'Use o formato dd/mm/aaaa.';
+    var d=+m[1],mm=+m[2],a=+m[3], dt=new Date(a,mm-1,d);
+    if(dt.getFullYear()!==a||dt.getMonth()!==mm-1||dt.getDate()!==d) return 'Essa data não existe. Confira o dia e o mês.';
+    var hoje=new Date(); if(dt>hoje) return 'A data de nascimento não pode ser no futuro.';
+    var idade=hoje.getFullYear()-a-((hoje.getMonth()<mm-1||(hoje.getMonth()===mm-1&&hoje.getDate()<d))?1:0);
+    if(idade<16) return 'É preciso ter pelo menos 16 anos para se cadastrar.'; if(idade>110) return 'Confira o ano de nascimento.'; return ''; }
+
+  var cargo=$('cargo'), campoOutro=$('campo-outro');
+  cargo.addEventListener('change',function(){ campoOutro.hidden = cargo.value!=='outro'; progresso(); });
+  document.querySelectorAll('.mostrar').forEach(function(b){ b.addEventListener('click',function(){ var i=$(b.dataset.alvo), on=i.type==='password'; i.type=on?'text':'password'; b.textContent=on?'Esconder':'Mostrar'; b.setAttribute('aria-pressed',on?'true':'false'); }); });
+
+  var regras={
+    nome:function(v){ return v.trim().split(/\s+/).length<2 ? 'Escreva seu nome e sobrenome.' : ''; },
+    nascimento:function(v){ return v? dataValida(v) : 'Informe sua data de nascimento.'; },
+    cpf:function(v){ if(!v) return 'Informe seu CPF.'; return cpfValido(v)?'':'Esse CPF não é válido. Confira os números.'; },
+    cep:function(v){ return /^\d{5}-\d{3}$/.test(v)?'':'Informe o CEP com 8 números.'; },
+    logradouro:function(v){ return v.trim()?'':'Informe a rua, avenida ou travessa.'; },
+    numero:function(v){ return v.trim()?'':'Informe o número ou escreva S/N.'; },
+    bairro:function(v){ return v.trim()?'':'Informe o bairro.'; },
+    municipio:function(v){ return v.trim()?'':'Informe o município.'; },
+    uf:function(v){ return v?'':'Selecione o estado.'; },
+    cargo:function(v){ return v?'':'Selecione seu cargo ou função.'; },
+    'cargo-outro':function(v){ return cargo.value!=='outro'||v.trim()?'':'Escreva qual é o seu cargo ou função.'; },
+    email:function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())?'':'Informe um e-mail completo, como nome@rede.gov.br.'; },
+    senha:function(v){ return v.length>=8&&/[A-Za-zÀ-ú]/.test(v)&&/\d/.test(v)?'':'A senha precisa ter pelo menos 8 caracteres, com letras e números.'; },
+    senha2:function(v){ return v&&v===$('senha').value?'':'As senhas não são iguais.'; }
+  };
+  var rotulos={nome:'Nome completo',nascimento:'Data de nascimento',cpf:'CPF',cep:'CEP',logradouro:'Rua, avenida ou travessa',numero:'Número',bairro:'Bairro',municipio:'Município',uf:'Estado',cargo:'Cargo ou função','cargo-outro':'Qual cargo ou função',email:'E-mail',senha:'Senha',senha2:'Repita a senha'};
+  function checa(id,mostrar){ var el=$(id), msg=regras[id](el.value), box=el.closest('.campo'), e=$(id+'-erro');
+    if(mostrar){ box.classList.toggle('invalido',!!msg); e.hidden=!msg; e.textContent=msg; if(msg){ el.setAttribute('aria-invalid','true'); el.setAttribute('aria-describedby',((el.getAttribute('aria-describedby')||'').replace(id+'-erro','').trim()+' '+id+'-erro').trim()); } else el.removeAttribute('aria-invalid'); }
+    return msg; }
+  Object.keys(regras).forEach(function(id){ var el=$(id); el.addEventListener('blur',function(){ if(el.value) checa(id,true); progresso(); }); el.addEventListener('input',function(){ if(el.closest('.campo').classList.contains('invalido')) checa(id,true); progresso(); }); });
+  $('aceite').addEventListener('change',function(){ if($('aceite').checked){ $('campo-aceite').classList.remove('invalido'); $('aceite-erro').hidden=true; } progresso(); });
+
+  var grupos={pessoais:['nome','nascimento','cpf'],endereco:['cep','logradouro','numero','bairro','municipio','uf'],atuacao:['cargo','cargo-outro'],acesso:['email','senha','senha2']};
+  function progresso(){ Object.keys(grupos).forEach(function(g){ var ok=grupos[g].every(function(id){ return !regras[id]($(id).value); }); if(g==='acesso') ok=ok&&$('aceite').checked; var li=document.querySelector('.etapas li[data-etapa="'+g+'"]'); li.classList.toggle('ok',ok); li.querySelector('.marcador').textContent= ok?'✓':li.querySelector('.marcador').dataset.n||(li.querySelector('.marcador').dataset.n=li.querySelector('.marcador').textContent); }); }
+  document.querySelectorAll('.etapas .marcador').forEach(function(m){ m.dataset.n=m.textContent; });
+
+  form.addEventListener('submit',function(e){ e.preventDefault();
+    var erros=[]; Object.keys(regras).forEach(function(id){ if(id==='cargo-outro'&&cargo.value!=='outro') return; var m=checa(id,true); if(m) erros.push([id,m]); });
+    if(!$('aceite').checked){ $('campo-aceite').classList.add('invalido'); var ae=$('aceite-erro'); ae.hidden=false; ae.textContent='Para concluir, marque que leu e concorda com a política de privacidade.'; erros.push(['aceite',ae.textContent]); }
+    var resumo=$('resumo-erros'), lista=$('lista-erros');
+    if(erros.length){ lista.innerHTML=''; erros.forEach(function(x){ var li=document.createElement('li'), a=document.createElement('a'); a.href='#'+x[0]; a.textContent=(rotulos[x[0]]||'Política de privacidade')+': '+x[1]; a.addEventListener('click',function(ev){ ev.preventDefault(); $(x[0]).focus(); }); li.appendChild(a); lista.appendChild(li); });
+      resumo.hidden=false; resumo.focus(); return; }
+    resumo.hidden=true; form.hidden=true; var s=$('sucesso'); s.hidden=false; s.focus(); });
+})();
+</script>
+<script>
+(function(){
+'use strict';
+var $=function(id){ return document.getElementById(id); };
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+var ANO=new Date().getFullYear();
+var UFS=[['AC','Acre','do'],['AL','Alagoas','de'],['AP','Amapá','do'],['AM','Amazonas','do'],['BA','Bahia','da'],['CE','Ceará','do'],['DF','Distrito Federal','do'],['ES','Espírito Santo','do'],['GO','Goiás','de'],['MA','Maranhão','do'],['MT','Mato Grosso','de'],['MS','Mato Grosso do Sul','de'],['MG','Minas Gerais','de'],['PA','Pará','do'],['PB','Paraíba','da'],['PR','Paraná','do'],['PE','Pernambuco','de'],['PI','Piauí','do'],['RJ','Rio de Janeiro','do'],['RN','Rio Grande do Norte','do'],['RS','Rio Grande do Sul','do'],['RO','Rondônia','de'],['RR','Roraima','de'],['SC','Santa Catarina','de'],['SP','São Paulo','de'],['SE','Sergipe','de'],['TO','Tocantins','do']];
+function ufNome(sig){ for(var i=0;i<UFS.length;i++) if(UFS[i][0]===sig) return UFS[i]; return null; }
+
+/* =====================================================================
+   QUESTIONÁRIO (versão preliminar, transcrita do PDF recebido)
+   Prefixos das opções: "+" abre campo de texto; "!" é exclusiva (limpa as demais).
+   ===================================================================== */
+var NS='!Não sei informar.';
+var BLOCOS=[
+{curto:'Identificação',t:'Identificação do(a) respondente e da Secretaria',cor:'var(--amarelo-100)',qs:[
+  {id:'b1q1',k:'t',t:'Nome completo',pii:1,ac:'name'},
+  {id:'b1q2',k:'r',t:'Cargo / Função',o:['Secretário(a) de Educação','Secretário(a) Adjunto(a) / Subsecretário(a)','Diretor(a) / Coordenador(a) de Educação Infantil ou de Ensino','+Outro']},
+  {id:'b1q3',k:'r',t:'Vínculo com a área de Educação Infantil na Secretaria',o:['Responsável direto(a) pela coordenação da Educação Infantil.','Integrante da equipe técnica de Educação Infantil.','Integrante de outra área da Secretaria, com atuação relacionada à Educação Infantil.','Dirigente da Secretaria, sem atuação direta na área.','+Outro. Qual?']},
+  {id:'b1q4',k:'u',t:'Estado / Distrito Federal'},
+  {id:'b1q5',k:'e',t:'E-mail institucional',pii:1},
+  {id:'b1q6',k:'f',t:'Telefone / WhatsApp de contato',pii:1}
+]},
+{curto:'Conhecimento e normas',t:'Conhecimento técnico e alinhamento normativo aos PNQEEI',cor:'var(--rosa-100)',qs:[
+  {id:'b2q1',k:'r',t:'A Secretaria Estadual de Educação conhece os Parâmetros Nacionais de Qualidade e Equidade da Educação Infantil (PNQEEI)?',o:['Sim, conhece e utiliza como referência para a política estadual de Educação Infantil.','Sim, conhece, mas ainda não utiliza os PNQEEI como referência nas ações da Secretaria.','Conhece parcialmente, com apropriação ainda limitada do documento.','Não conhece.',NS]},
+  {id:'b2q2',k:'r',t:'Os PNQEEI foram apresentados, discutidos e/ou incorporados às orientações da Secretaria para os municípios?',o:['Sim, de forma sistemática, por meio de formações, reuniões técnicas e/ou orientações institucionais.','Sim, mas de forma pontual.','Estão em processo de incorporação.','Não foram incorporados às ações da Secretaria junto aos municípios.',NS]},
+  {id:'b2q3',k:'r',t:'A Secretaria possui algum documento, normativa, orientação técnica ou plano de ação que incorpore as recomendações dos PNQEEI?',o:['Sim, especificamente para a Educação Infantil.','Sim, como parte de documentos mais amplos da política educacional.','Está em elaboração.','Não possui.',NS]},
+  {id:'b2q4',k:'r',t:'Qual o seu grau de conhecimento sobre os Parâmetros Nacionais de Qualidade da Educação Infantil (PNQEEI) de 2024?',o:['Nenhum: não conheço os PNQEEI.','Pouco: já ouvi falar, mas não li o documento.','Moderado: li o documento e conheço suas dimensões de qualidade, mas não o utilizo no trabalho.','Bom: conheço as dimensões e utilizo os PNQEEI como referência no meu trabalho (ex.: planejamento, formação, acompanhamento das unidades).','Excelente: conheço em profundidade e já usei os PNQEEI para elaborar ou revisar orientações, normativas ou documentos da rede.']},
+  {id:'b2q5',k:'r',t:'Qual o seu grau de conhecimento sobre os Indicadores de Qualidade da Educação Infantil (INDIQUE)?',o:['Nenhum conhecimento','Pouco','Moderado','Bom','Excelente']},
+  {k:'nota',t:'A Seção 4.2.2 dos PNQEEI recomenda o uso dos Indicadores da Qualidade na Educação Infantil (INDIQUE) e dos Indicadores da Qualidade na Educação – Relações Raciais na Educação Infantil como referências para a autoavaliação institucional.'},
+  {id:'b2q6',k:'a',t:'Quais instrumentos, documentos ou referências são utilizados pela Secretaria para orientar ou apoiar os processos de autoavaliação institucional da qualidade da Educação Infantil nas unidades ou redes municipais?',i:'Pergunta aberta.'},
+  {id:'b2q7',k:'r',t:'A gestão da rede tem conhecimento dos Parâmetros Nacionais de Qualidade e Equidade da Educação Infantil (PNQEEI)?',o:['Sim, há conhecimento, e a recomendação é considerada nas orientações e ações da rede.','Sim, há conhecimento, mas a recomendação ainda não foi incorporada de forma sistemática às ações da rede.','Tem conhecimento parcial da recomendação, mas não conhece suficientemente os instrumentos ou sua finalidade.','Não tem conhecimento dessa recomendação dos PNQEEI.',NS]},
+  {id:'b2q8',k:'r',t:'A Secretaria Estadual de Educação/DF já desenvolveu ou está desenvolvendo ações para implementar os Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil, considerando a Resolução CNE/CEB nº 1/2024?',o:['Sim, já desenvolve ações sistemáticas de implementação.','Sim, está em processo de implementação.','Sim, foram realizadas ações iniciais, mas ainda não há uma estratégia estruturada.','Não, mas há previsão de implementação.','Não foram iniciadas ações.',NS]},
+  {id:'b2q9',k:'a',t:'Quais foram as principais ações desenvolvidas pela Secretaria desde 2024 para implementar os PNQEEI?',i:'Pergunta aberta. Informe, quando possível, o ano de realização, o público envolvido e os principais resultados ou encaminhamentos.'},
+  {id:'b2q10',k:'r',t:'A rede estadual/DF possui normativa própria ou orientações institucionais para regulamentar ou orientar a implementação dos PNQEEI, em consonância com a Resolução CNE/CEB nº 1/2024?',o:['Sim, possui normativa estadual/distrital específica.','Sim, possui orientações ou diretrizes institucionais, mas não uma normativa específica.','Está em processo de elaboração de uma normativa ou de orientações.','Não possui normativa ou orientações próprias.',NS]},
+  {id:'b2q11',k:'r',t:'A Secretaria Estadual de Educação/DF elaborou ou está elaborando um plano de ação para adequação e implementação dos PNQEEI?',o:['Sim, possui um plano de ação elaborado e em execução.','Sim, possui um plano de ação elaborado, mas ainda não iniciado.','Está em processo de elaboração do plano de ação.','Existem ações planejadas, mas ainda não estão sistematizadas em um plano.','Não possui plano de ação nem previsão para elaboração.',NS]},
+  {id:'b2q12',k:'c',t:'Quais dimensões dos PNQEEI estão sendo priorizadas nas ações de implementação pela rede estadual/DF?',o:['Gestão democrática e governança da Educação Infantil.','Acesso, oferta e ampliação do atendimento.','Infraestrutura, espaços, mobiliário e materiais.','Proposta pedagógica e práticas educativas.','Formação inicial e continuada dos profissionais.','Valorização e condições de trabalho dos profissionais.','Inclusão, diversidade e equidade.','Gestão, monitoramento e avaliação da qualidade da Educação Infantil.','Regime de colaboração e articulação entre o Estado e os municípios.','+Outras. Quais?','!Ainda não foram definidas as dimensões prioritárias.',NS]},
+  {id:'b2q13',k:'c',t:'Como a Secretaria Estadual de Educação/DF acompanha e/ou monitora as ações de implementação dos PNQEEI?',o:['Por meio de uma equipe técnica específica da Secretaria.','Por meio de indicadores e metas definidos em um plano de ação.','Por meio de reuniões e do acompanhamento junto às redes municipais.','Por meio de comissões ou grupos de trabalho instituídos para essa finalidade.','Em articulação com os Conselhos de Educação.','Por meio de instrumentos de avaliação e de monitoramento da qualidade da Educação Infantil.','!Ainda não existe acompanhamento ou monitoramento sistemático.','+Outra forma. Qual?',NS]},
+  {id:'b2q14',k:'r',t:'Em que medida o regime de colaboração entre o Estado/DF e os municípios tem contribuído para a implementação dos PNQEEI?',o:['De forma sistemática, com ações de apoio técnico, formação e acompanhamento.','Por meio de ações pontuais de orientação e formação.','Principalmente por meio da divulgação de documentos e de orientações.','Há iniciativas de colaboração em fase de estruturação.','Não há ações específicas de colaboração voltadas à implementação dos PNQEEI.',NS]}
+]},
+{curto:'Regime de colaboração',t:'Regime de colaboração e atuação da Secretaria na Educação Infantil',cor:'var(--azul-100)',qs:[
+  {id:'b3q1',k:'c',t:'Como está estruturada a atuação da Secretaria Estadual/DF junto aos municípios no âmbito do regime de colaboração, especificamente em relação à Educação Infantil?',o:['Possui programa/equipe dedicada com ações de apoio técnico pactuadas com os municípios','Realiza ações pontuais de apoio e formação sob demanda das Secretarias Municipais de Educação (SMEs)','Realiza ações regulares de apoio técnico e formação, mesmo sem programa específico para a Educação Infantil','O apoio ocorre apenas no âmbito geral da alfabetização ou ensino fundamental','!A rede estadual não atua em regime de colaboração na Educação Infantil','+Outro. Qual?',NS]},
+  {id:'b3q2',k:'r',t:'Dentro das pactuações do Regime de Colaboração, a autoavaliação institucional e a garantia de qualidade estão previstas?',o:['Sim, com metas e diretrizes explícitas','Parcialmente, como tema transversal','Não estão previstas formalmente','Não existem pactuações formalizadas no âmbito do regime de colaboração.','Não sei informar']}
+]},
+{curto:'Usos e formação',t:'Usos práticos e formação continuada com o INDIQUE',cor:'var(--verde-100)',qs:[
+  {id:'b4q1',k:'r',t:'O estado/DF utilizou o INDIQUE em suas ações de Formação Continuada nos últimos 12 meses?',i:'Se a resposta for “Sim”, aparece a questão seguinte. Se for “Não”, ela é pulada.',o:['Sim, diretamente: promove formações específicas sobre a metodologia e a aplicação do INDIQUE/INDIQUE Relações Raciais.','Sim, como referência complementar: o INDIQUE é citado ou integra cadernos e materiais pedagógicos.','Não, mas há previsão de implementação.','Não utiliza nas ações formativas.']},
+  {id:'b4q2',k:'c',t:'Quem é o público-alvo prioritário das formações da rede estadual/DF que abordam o INDIQUE?',i:'Apenas para quem respondeu “Sim” à questão 1. Pode marcar mais de uma opção.',se:function(){ return A.b4q1===0||A.b4q1===1; },o:['Equipes técnicas das Secretarias Municipais de Educação (SMEs)','Formadores locais do Regime de Colaboração','Formadores vinculados ao Compromisso Nacional Criança Alfabetizada (CNCA).','Gestores(as) (Diretores e Coordenadores) de creches e pré-escolas','Professores(as) da Educação Infantil','+Outro']},
+  {id:'b4q3',k:'c',t:'Marque todas as outras formas de uso do INDIQUE promovidas pela rede estadual/DF.',i:'Respondida por todos. Pode marcar mais de uma opção.',o:['Orientação e revisão dos Documentos Curriculares do Estado/DF','Orientação aos municípios para utilização dos resultados do INDIQUE na elaboração de planos de ação','Incentivo formal para inclusão da autoavaliação nos Projetos Político-Pedagógicos (PPPs)','Elaboração de cartilhas, orientações técnicas e cadernos pedagógicos','+Outro','!Não há outros usos registrados na rede']},
+  {id:'b4q4',k:'r',t:'Com que frequência a instituição utiliza o INDIQUE para realizar sua autoavaliação?',o:['Nunca','Raramente','Às vezes','Frequentemente','Sempre']},
+  {id:'b4q5',k:'r',t:'Na sua percepção, em que medida os resultados do INDIQUE são utilizados pelas unidades de Educação Infantil dos municípios para orientar o planejamento e as ações de melhoria da qualidade?',o:['Não se aplica (caso a resposta anterior seja nunca)','Não são utilizados','São utilizados pouco','São utilizados parcialmente','São utilizados de forma significativa','São utilizados de forma sistemática']},
+  {id:'b4q6',k:'r',t:'Em que medida a equipe participa da discussão e da interpretação dos resultados da autoavaliação?',o:['Não se aplica (caso a resposta anterior seja não se aplica)','Não participa','Participa pouco','Participa parcialmente','Participa bastante','Participa de forma sistemática']},
+  {id:'b4q7',k:'r',t:'A Secretaria orienta e/ou recomenda aos municípios o uso do INDIQUE?',o:['Sim, como orientação formal.','Sim, como recomendação não formal.','Sim, mas somente para determinados municípios ou em ações específicas.','O tema já foi apresentado aos municípios, mas não há orientação para sua utilização.','Não orienta nem recomenda.',NS]},
+  {id:'b4q8',k:'r',t:'A Secretaria orienta e/ou recomenda aos municípios o uso do INDIQUE – Relações Raciais na Educação Infantil?',o:['Sim, como orientação formal.','Sim, como recomendação não formal.','O tema já foi apresentado aos municípios, mas não há orientação para sua utilização.','Não orienta nem recomenda.',NS]},
+  {id:'b4q9',k:'r',t:'A Secretaria acompanha a realização de processos de autoavaliação institucional nas unidades de Educação Infantil dos municípios?',o:['Sim, de forma sistemática.','Sim, mas apenas de forma eventual.','Apenas quando solicitado pelos municípios.','Não acompanha.',NS]},
+  {id:'b4q10',k:'r',t:'Quando o INDIQUE é utilizado pelos municípios, a Secretaria tem acesso ou recebe informações sobre seus resultados?',o:['Sim, sistematicamente.','Sim, mas apenas de alguns municípios.','Eventualmente.','Não recebe essas informações.',NS]}
+]},
+{curto:'Coleta e uso dos dados',t:'Suporte à coleta, monitoramento e uso dos dados',cor:'var(--lilas-100)',qs:[
+  {id:'b5q1',k:'r',t:'A Secretaria Estadual/DF apoia os municípios na coleta, consolidação ou análise dos dados do INDIQUE?',o:['Sim, de forma estruturada: Disponibiliza orientações, instrumental ou sistemas para sistematizar os dados das unidades','Sim, pontualmente: Oferece suporte técnico de análise quando solicitado','Sim, por meio de formações ou orientações, mas sem apoiar diretamente a sistematização dos dados','Não: A coleta e consolidação dos dados ficam exclusivamente sob responsabilidade de cada município','Não sei informar']},
+  {id:'b5q2',k:'r',t:'O INDIQUE é utilizado como instrumento de autoavaliação da qualidade da Educação Infantil na rede estadual ou do Distrito Federal?',o:['Sim, em todas as unidades de Educação Infantil da rede.','Sim, na maioria das unidades.','Sim, em parte das unidades.','Sim, em algumas unidades, como experiência-piloto.','Não, mas há previsão de implementação.','Não é utilizado.',NS]},
+  {id:'b5q3',k:'r',t:'Aproximadamente, qual proporção dos municípios possui unidades de Educação Infantil que utilizam o INDIQUE?',o:['Todos os municípios.','Entre 75% e 99%.','Entre 50% e 74%.','Entre 25% e 49%.','Menos de 25%.','Não há levantamento desse quantitativo.',NS]},
+  {id:'b5q4',k:'n',t:'Número estimado de municípios que utilizam o INDIQUE',lte:'b5q5'},
+  {id:'b5q5',k:'n',t:'Número total de municípios da unidade federativa'},
+  {id:'b5q6',k:'n',t:'Número estimado de unidades de Educação Infantil que utilizam o INDIQUE',lte:'b5q7'},
+  {id:'b5q7',k:'n',t:'Número total de unidades de Educação Infantil dos municípios considerados'},
+  {id:'b5q8',k:'r',t:'Com que frequência o INDIQUE é aplicado nas unidades de Educação Infantil da rede?',o:['Anualmente.','A cada dois anos.','A cada três anos ou mais.','A periodicidade varia entre os municípios ou unidades.','Conforme orientação ou calendário estabelecido pela Secretaria de Educação.','Sem periodicidade definida.','Foi aplicado apenas uma vez.',NS,'Não se aplica.']},
+  {id:'b5q9',k:'r',t:'A Secretaria de Educação estabelece orientações, diretrizes ou um calendário para a realização da autoavaliação com o INDIQUE?',o:['Sim, há orientações e um calendário definido.','Sim, há orientações, mas não há calendário definido.','Sim, há um calendário, mas não há orientações específicas.','Não, cada unidade organiza a aplicação de forma autônoma.','Não há orientação institucional sobre a aplicação.',NS]},
+  {id:'b5q10',k:'r',t:'Após a realização da autoavaliação com o INDIQUE, as unidades de Educação Infantil elaboram planos de ação para enfrentar os desafios e promover melhorias na qualidade do atendimento?',o:['Sim, todas as unidades elaboram planos de ação.','Sim, a maioria das unidades elabora planos de ação.','Sim, algumas unidades elaboram planos de ação.','A elaboração de planos de ação é recomendada, mas não sistemática.','Não, os resultados da autoavaliação não são utilizados para elaborar planos de ação.',NS,'Não se aplica.']},
+  {id:'b5q11',k:'r',t:'Como ocorre o acompanhamento da implementação dos planos de ação elaborados a partir da autoavaliação com o INDIQUE?',o:['Pela Secretaria de Educação, por meio de uma equipe técnica específica.','Pelas equipes regionais ou pelas instâncias intermediárias de gestão.','Pelas equipes gestoras das próprias unidades de Educação Infantil.','De forma compartilhada entre a Secretaria de Educação, as equipes regionais e as unidades.','Por meio de comissões ou grupos de acompanhamento instituídos para essa finalidade.','Não há acompanhamento sistemático.',NS,'Não se aplica.']},
+  {id:'b5q12',k:'r',t:'Os resultados da aplicação do INDIQUE são utilizados para subsidiar o planejamento de ações e políticas da Secretaria de Educação voltadas à melhoria da qualidade da Educação Infantil?',o:['Sim, de forma sistemática.','Sim, pontualmente.','Sim, mas ainda sem sistematização.','Não.',NS]},
+  {id:'b5q13',k:'r',t:'Os dados das autoavaliações institucionais (INDIQUE) são utilizados para orientar políticas públicas estaduais de Educação Infantil?',o:['Sim, de forma sistemática, orientando o planejamento de formações, aquisições, investimentos e ações de melhoria da Educação Infantil.','Sim, mas de forma parcial ou experimental, estando em fase de implementação ou utilização piloto em algumas regiões ou municípios.','Não, os dados consolidados das autoavaliações não são utilizados para subsidiar o planejamento da rede','Não sabe informar.']},
+  {id:'b5q14',k:'r',t:'Os resultados das avaliações e/ou autoavaliações da Educação Infantil são utilizados pela Secretaria para orientar políticas, programas ou ações de melhoria da qualidade?',o:['Sim, sistematicamente.','Sim, mas de forma pontual.','Estão começando a ser utilizados.','Não são utilizados para esse propósito.',NS]},
+  {id:'b5q15',k:'c',t:'Em quais situações os resultados da avaliação da Educação Infantil são utilizados pela Secretaria?',o:['Planejamento das políticas estaduais.','Apoio técnico aos municípios.','Formação continuada dos profissionais.','Definição de prioridades de investimento.','Definição de metas e indicadores.','Monitoramento da qualidade da Educação Infantil.','Enfrentamento das desigualdades educacionais.','Planejamento de expansão de vagas.','Acompanhamento de infraestrutura e condições de funcionamento.','!Não são utilizados sistematicamente.','+Outro']},
+  {id:'b5q16',k:'c',t:'Quais dimensões a Secretaria considera prioritárias para avaliar a qualidade da Educação Infantil no estado?',o:['Infraestrutura e condições dos espaços.','Formação e valorização dos profissionais.','Práticas pedagógicas.','Interações e experiências das crianças.','Gestão democrática e participação das famílias.','Inclusão e atendimento às crianças com deficiência.','Equidade racial.','Equidade territorial.','Educação do campo, indígena e quilombola.','Condições de acesso e permanência.','Desenvolvimento e aprendizagem das crianças.','+Outra']},
+  {id:'b5q17',k:'r',t:'A Secretaria possui indicadores específicos para acompanhar as desigualdades na oferta e na qualidade da Educação Infantil entre os municípios?',o:['Sim, indicadores sistemáticos e acompanhados periodicamente.','Sim, mas o acompanhamento ainda é pontual.','Está desenvolvendo esses indicadores.','Não possui.',NS]},
+  {k:'sub',t:'Articulação com outros instrumentos de avaliação da qualidade'},
+  {id:'b5q18',k:'r',t:'A rede articula o INDIQUE com outros instrumentos, processos ou estratégias de avaliação da qualidade da Educação Infantil?',o:['Sim, de forma sistemática.','Sim, pontualmente.','Há iniciativas de articulação em fase de implementação.','Não há articulação atualmente, mas existe previsão de fazê-la.','Não há articulação.',NS]},
+  {id:'b5q19',k:'c',t:'Caso exista articulação, quais instrumentos, processos ou estratégias o INDIQUE está relacionado?',o:['Parâmetros Nacionais de Qualidade e Equidade da Educação Infantil (PNQEEI).','Indicadores da Qualidade na Educação Infantil – INDIQUE.','Saeb – avaliação da Educação Infantil.','Indicadores ou instrumentos próprios da Secretaria de Educação.','Avaliações ou monitoramentos realizados pelas equipes técnicas das redes.','Instrumentos de acompanhamento e avaliação dos Planos Municipais ou Estaduais de Educação.','+Outros. Qual(is)?','!Não há articulação com outros instrumentos.',NS]},
+  {id:'b5q20',k:'r',t:'De que maneira os resultados do INDIQUE são utilizados em articulação com os demais instrumentos ou processos de avaliação da qualidade da Educação Infantil?',o:['Para complementar as informações e evidências sobre a qualidade da Educação Infantil.','Para subsidiar o planejamento e a implementação de políticas de melhoria da qualidade.','Para identificar desafios e definir prioridades de intervenção.','Para monitorar o cumprimento de metas e de parâmetros de qualidade e de equidade.','Para orientar a formação continuada dos profissionais da Educação Infantil.','Não há utilização articulada dos resultados.','+Outra forma. Qual?',NS]}
+]},
+{curto:'Diversidade e desafios',t:'Diversidade, modalidades específicas e desafios',cor:'var(--laranja-100)',qs:[
+  {id:'b6q1',k:'r',t:'O estado/DF utiliza o INDIQUE – Relações Raciais na Educação Infantil nas orientações e formações da rede?',o:['Sim, integradamente ao INDIQUE tradicional','Não, mas está no planejamento de implementação','Não utiliza']},
+  {id:'b6q2',k:'r',t:'Como a rede aborda a autoavaliação em creches e pré-escolas diferenciadas (indígenas, quilombolas, do campo, das águas e das florestas) e na Educação Especial?',o:['Aplica o INDIQUE com adaptações para atender às especificidades das populações e modalidades','Aplica o Indique sem as adaptações','Utiliza outros instrumentos específicos alinhados às Diretrizes Curriculares Nacionais','Não possui orientação ou instrumento específico para essas modalidades','Não sei informar','Não se aplica']},
+  {id:'b6q3',k:'c',t:'Quais são os principais desafios enfrentados pela rede estadual/DF para ampliar e qualificar o uso do INDIQUE como instrumento de autoavaliação da qualidade da Educação Infantil?',o:['Ausência de normativa estadual que institua, oriente ou regulamente a autoavaliação da qualidade da Educação Infantil.','Falta de formação técnica contínua para a equipe central da Secretaria de Educação.','Rotatividade dos profissionais das equipes técnicas responsáveis pela implementação e pelo acompanhamento do INDIQUE.','Dificuldade de articulação, mobilização e acompanhamento junto aos municípios.','Baixa adesão ou participação dos municípios na autoavaliação.','Dificuldade de articulação com os Conselhos de Educação (estadual e municipais) para apoiar, acompanhar e fortalecer os processos de autoavaliação.','Ausência de sistema ou plataforma digital para o registro, a sistematização e a consolidação dos dados da autoavaliação.','Limitação de recursos financeiros para a impressão de materiais, a realização de encontros formativos e outras atividades de implementação do INDIQUE.','Dificuldade em utilizar os resultados da autoavaliação para subsidiar o planejamento e a implementação de ações de melhoria da qualidade da Educação Infantil.','Fragilidade na articulação entre o INDIQUE e outros instrumentos, políticas e parâmetros de avaliação da qualidade da Educação Infantil, incluindo os PNQEEI.','+Outro(s). Qual(is)?','!Não identificamos desafios relevantes no momento.',NS]},
+  {k:'sub',t:'Apoio aos municípios'},
+  {id:'b6q4',k:'c',t:'Que tipos de apoio a Secretaria oferece aos municípios para melhorar a qualidade da Educação Infantil?',o:['Formação continuada.','Assessoria técnica.','Orientações pedagógicas.','Apoio na elaboração de documentos e planos.','Apoio à avaliação e monitoramento.','Apoio à melhoria da infraestrutura.','Compartilhamento de materiais e metodologias.','Apoio específico para inclusão e equidade.','Apoio financeiro.','!Não oferece apoio específico.','+Outro']},
+  {id:'b6q5',k:'r',t:'A Secretaria oferece apoio diferenciado aos municípios que apresentam maiores dificuldades ou menores níveis de qualidade na Educação Infantil?',o:['Sim, de forma sistemática.','Sim, mas de forma pontual.','Está em processo de implementação.','Não.',NS]},
+  {k:'sub',t:'Regime de colaboração'},
+  {id:'b6q6',k:'r',t:'Como você avalia o regime de colaboração entre o Estado e os municípios na implementação das políticas de Educação Infantil?',o:['Muito bom: há planejamento conjunto, comunicação permanente e definição compartilhada de responsabilidades.','Bom: existe colaboração, embora ocorram algumas dificuldades de articulação.','Regular: a colaboração ocorre de forma pontual e depende de iniciativas específicas.','Ruim: há pouca articulação sistemática entre Estado e municípios.','Inexistente: não há ações coordenadas relevantes.',NS]},
+  {id:'b6q7',k:'c',t:'Quais mecanismos de colaboração são utilizados pela Secretaria junto aos municípios?',o:['Reuniões técnicas periódicas.','Fóruns ou comissões intergovernamentais.','Formação continuada conjunta.','Sistemas compartilhados de monitoramento.','Apoio técnico individualizado aos municípios.','Pactuação de metas.','Compartilhamento de materiais e experiências.','Programas ou projetos específicos.','+Outro']},
+  {k:'sub',t:'Selo UNICEF e outras agendas'},
+  {id:'b6q8',k:'r',t:'A Secretaria acompanha e/ou apoia ações dos municípios relacionadas ao Selo UNICEF que envolvam a Educação Infantil?',o:['Sim, sistematicamente.','Sim, de forma pontual.','Apenas quando solicitado pelos municípios.','Não acompanha/apoia.',NS]},
+  {id:'b6q9',k:'m',t:'Sinalize na matriz como você identifica a articulação entre o uso do INDIQUE, os PNQEEI e outras iniciativas de avaliação e melhoria da qualidade da Educação Infantil, incluindo ações relacionadas ao Selo UNICEF.',i:'Marque uma opção em cada linha.',lin:['a) INDIQUE × PNQEEI','b) INDIQUE × Selo UNICEF','c) PNQEEI × Selo UNICEF','d) INDIQUE × instrumentos e iniciativas próprias da Secretaria Estadual/DF de avaliação e melhoria da qualidade'],o:['Articulação sistemática','Alguma articulação, ainda não sistemática','Desenvolvidas de forma independente','Não existe articulação','Não sei informar','Não se aplica']},
+  {k:'sub',t:'Prioridades e desafios'},
+  {id:'b6q10',k:'c',max:5,t:'Na avaliação da Secretaria, quais são, atualmente, os principais desafios para garantir a qualidade e a equidade na Educação Infantil no estado?',o:['Insuficiência de vagas.','Infraestrutura das unidades.','Formação dos profissionais.','Valorização e condições de trabalho dos profissionais.','Gestão das unidades.','Práticas pedagógicas.','Inclusão de crianças com deficiência.','Equidade racial.','Desigualdades entre municípios.','Educação Infantil em territórios rurais, indígenas e quilombolas.','Financiamento.','Monitoramento e avaliação.','Regime de colaboração com os municípios.','Participação das famílias.','Insuficiência de dados e informações para diagnosticar as condições de oferta e qualidade da Educação Infantil.','Dificuldade de transformar os resultados das avaliações e autoavaliações em ações concretas de melhoria.','+Outro']},
+  {id:'b6q11',k:'p',t:'Quais são as três principais prioridades da Secretaria para melhorar a qualidade e a equidade da Educação Infantil nos próximos anos?',i:'Informe em ordem de importância, sendo 1 a mais prioritária.'},
+  {id:'b6q12',k:'r',t:'Na sua avaliação, qual é o principal fator que dificulta a implementação das recomendações dos PNQEEI nos municípios?',o:['Falta de conhecimento sobre os PNQEEI.','Falta de capacidade técnica.','Insuficiência de recursos financeiros.','Falta de profissionais.','Dificuldades de articulação entre Estado e municípios.','Baixa capacidade de gestão municipal.','Falta de instrumentos de monitoramento e de avaliação.','Baixa participação das famílias e da comunidade.','Ausência de regulamentação ou de orientação mais específica.','+Outro']},
+  {id:'b6q13',k:'a',t:'Na sua avaliação, o que deveria ser aprimorado nas políticas de apoio, avaliação e monitoramento da Educação Infantil para que os princípios de qualidade e equidade previstos nos PNQEEI fossem efetivamente implementados nos municípios?',i:'Pergunta aberta.'},
+  {id:'b6q14',k:'c',max:3,t:'Qual(is) tipo(s) de apoio do Governo Federal/MEC seria(m) prioritário(s) para fortalecer a gestão da qualidade na Educação Infantil no seu estado?',o:['Formação de multiplicadores para apoiar a formação das equipes municipais e das instituições de Educação Infantil','Formação continuada para gestores, coordenadores pedagógicos e profissionais da Educação Infantil','Orientações técnicas e materiais de apoio para a implementação de políticas e práticas de qualidade','Assistência técnica aos estados e municípios para diagnóstico, planejamento, implementação e acompanhamento das ações','Plataforma digital para apoiar a gestão, o acompanhamento de indicadores, a autoavaliação e o planejamento','Instrumentos de avaliação e autoavaliação da qualidade da Educação Infantil','Apoio financeiro para implementação de ações voltadas à melhoria da qualidade','Produção e disponibilização de materiais pedagógicos para profissionais da Educação Infantil','Compartilhamento de boas práticas e experiências entre estados, municípios e instituições','Apoio à produção e ao uso de dados e indicadores para planejamento e tomada de decisão','Monitoramento e acompanhamento técnico da implementação das políticas de qualidade','Articulação intergovernamental entre União, estados e municípios','+Outro']},
+  {id:'b6q15',k:'r',din:'b6q14',t:'Entre os apoios selecionados, qual seria o mais prioritário para o seu estado?',i:'Aparecem aqui só os apoios marcados na questão anterior.',o:['Formação de multiplicadores','Formação continuada','Orientações técnicas','Assistência técnica','Plataforma digital','Instrumentos de avaliação e autoavaliação','Apoio financeiro','Materiais pedagógicos','Boas práticas e intercâmbio de experiências','Dados e indicadores','Monitoramento e acompanhamento técnico','Articulação intergovernamental','Outro']}
+]}
+];
+
+var A={}, QI={}, passo=0, revisado=false, enviado=false, KEY='pnqeei-consulta-rascunho-v1';
+var NPASSOS=BLOCOS.length+2;
+function parseOp(s){ var o={txt:s,outro:false,excl:false}; while(/^[+!]/.test(o.txt)){ if(o.txt[0]==='+') o.outro=true; else o.excl=true; o.txt=o.txt.slice(1); } if(/^Não sei informar|^Não sabe informar/.test(o.txt)) o.excl=true; return o; }
+BLOCOS.forEach(function(b,bi){ var n=0; b.qs.forEach(function(q){ if(!q.id) return; n++; q.n=n; q.b=bi+1; QI[q.id]=q; if(q.o) q.op=q.o.map(parseOp); }); });
+var DEPENDENTES={b4q1:['b4q2'],b6q14:['b6q15']};
+function visivel(q){ return !q.se || q.se(); }
+function arr(v){ return Array.isArray(v)?v:[]; }
+function vazio(v){ return v==null || (typeof v==='string' && !v.trim()); }
+
+function fmt(t){ var m=/^([^:]{2,32}):\s(.+)$/.exec(t); return m? '<b>'+esc(m[1])+':</b> '+esc(m[2]) : esc(t); }
+function instrDe(q){ if(q.i) return q.i; if(q.k==='c') return q.max? 'Marque até '+q.max+' opções.' : 'Pode marcar mais de uma opção.'; return ''; }
+function opsDe(q){ var lista=q.op.map(function(o,i){ return {o:o,i:i}; });
+  if(q.din){ var sel=arr(A[q.din]); lista=lista.filter(function(x){ return sel.indexOf(x.i)>-1; }); }
+  return lista; }
+function rotuloOp(q,x){ if(q.din && x.o.txt==='Outro'){ var t=A[q.din+'_o'+(QI[q.din].op.length-1)]; return 'Outro'+(t?': '+t:''); } return x.o.txt; }
+
+function htmlOpcoes(q){
+  var tipo=q.k==='c'?'checkbox':'radio', lista=opsDe(q);
+  if(q.din && !lista.length) return '<p class="instr" style="font-weight:600">Marque primeiro até 3 apoios na questão anterior.</p>';
+  return '<div class="opcoes">'+lista.map(function(x){ var i=x.i, ck = q.k==='c'? arr(A[q.id]).indexOf(i)>-1 : A[q.id]===i;
+    var h='<label class="opcao"><input type="'+tipo+'" name="'+q.id+'" value="'+i+'"'+(ck?' checked':'')+'><span>'+fmt(rotuloOp(q,x))+'</span></label>';
+    if(x.o.outro && !q.din) h+='<div class="outro-campo"'+(ck?'':' hidden')+'><input class="q-in" id="'+q.id+'_o'+i+'" aria-label="'+esc(x.o.txt.replace(/[.?:]+$/,''))+': especifique" placeholder="Especifique" value="'+esc(A[q.id+'_o'+i]||'')+'"></div>';
+    return h; }).join('')+'</div>'+(q.max?'<p class="contador" id="'+q.id+'-cont" aria-live="polite"></p>':''); }
+
+function htmlQ(q,bloco){
+  if(q.k==='nota') return '<aside class="pautada q-nota" aria-label="Nota"><p>'+esc(q.t)+'</p></aside>';
+  if(q.k==='sub') return '<h3 class="q-sub">'+esc(q.t)+'</h3>';
+  var campo = ['t','e','f','a','u','n'].indexOf(q.k)>-1, ins=instrDe(q);
+  var cab = (campo? '<label class="enunciado" for="'+q.id+'">' : '<p class="enunciado" id="'+q.id+'-t">')+'<span class="qn" aria-hidden="true">'+q.n+'</span><span>'+esc(q.t)+'</span>'+(campo?'</label>':'</p>');
+  var h='<div class="questao" id="w-'+q.id+'" data-q="'+q.id+'"'+(visivel(q)?'':' hidden')+(campo?'':' role="'+(q.k==='r'?'radiogroup':'group')+'" aria-labelledby="'+q.id+'-t"')+(ins?' aria-describedby="'+q.id+'-i"':'')+' style="--qcor:'+bloco.cor+'">'+cab;
+  if(ins) h+='<p class="instr" id="'+q.id+'-i">'+esc(ins)+'</p>';
+  var v=A[q.id]==null?'':A[q.id];
+  if(q.k==='r'||q.k==='c') h+=htmlOpcoes(q);
+  else if(q.k==='t') h+='<div class="q-campo"><input class="q-in" id="'+q.id+'" autocomplete="'+(q.ac||'off')+'" value="'+esc(v)+'"></div>';
+  else if(q.k==='e') h+='<div class="q-campo"><input class="q-in" id="'+q.id+'" type="email" autocomplete="email" value="'+esc(v)+'"></div>';
+  else if(q.k==='f') h+='<div class="q-campo"><input class="q-in" id="'+q.id+'" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15" value="'+esc(v)+'"></div>';
+  else if(q.k==='a') h+='<div class="q-campo"><textarea class="q-in" id="'+q.id+'" rows="5">'+esc(v)+'</textarea></div>';
+  else if(q.k==='u') h+='<div class="q-campo"><select class="q-in" id="'+q.id+'" style="max-width:22rem"><option value="">Selecione</option>'+UFS.map(function(u){ return '<option value="'+u[0]+'"'+(v===u[0]?' selected':'')+'>'+u[1]+'</option>'; }).join('')+'</select></div>';
+  else if(q.k==='n'){ var nd=!!A[q.id+'_nd']; h+='<div class="q-campo"><input class="q-in q-curto" id="'+q.id+'" inputmode="numeric" autocomplete="off" value="'+esc(v)+'"'+(nd?' disabled':'')+'><label class="nd"><input type="checkbox" id="'+q.id+'_nd"'+(nd?' checked':'')+'>A Secretaria não tem essa informação</label></div>'; }
+  else if(q.k==='m'){ var mv=arr(A[q.id]); h+=q.lin.map(function(l,ri){ return '<div class="matriz-linha" role="radiogroup" aria-labelledby="'+q.id+'-r'+ri+'"><p id="'+q.id+'-r'+ri+'">'+esc(l)+'</p><div class="opcoes">'+q.op.map(function(o,ci){ return '<label class="opcao pilula"><input type="radio" name="'+q.id+'_r'+ri+'" value="'+ci+'"'+(mv[ri]===ci?' checked':'')+'>'+esc(o.txt)+'</label>'; }).join('')+'</div></div>'; }).join(''); }
+  else if(q.k==='p'){ h+='<div class="q-campo">'+[1,2,3].map(function(k){ return '<label for="'+q.id+'_'+k+'" style="font:700 .9375rem var(--f-titulo)">'+k+'ª prioridade'+(k>1?' <small style="font-weight:400;color:var(--tinta-2)">(se houver)</small>':'')+'</label><input class="q-in" id="'+q.id+'_'+k+'" value="'+esc(A[q.id+'_'+k]||'')+'">'; }).join('')+'</div>'; }
+  h+='<p class="q-erro" id="'+q.id+'-erro" hidden></p></div>';
+  return h; }
+
+function pendente(q){
+  if(!q.id || !visivel(q)) return '';
+  var v=A[q.id], id=q.id;
+  if(q.k==='r'){ if(q.din && !arr(A[q.din]).length) return 'Marque antes os apoios na questão anterior.';
+    if(v==null) return 'Escolha uma opção.'; if(q.op[v] && q.op[v].outro && !q.din && vazio(A[id+'_o'+v])) return 'Especifique a opção “'+q.op[v].txt.replace(/[.?:]+$/,'')+'”.'; return ''; }
+  if(q.k==='c'){ var a=arr(v); if(!a.length) return 'Marque pelo menos uma opção.';
+    for(var i=0;i<a.length;i++){ if(q.op[a[i]].outro && vazio(A[id+'_o'+a[i]])) return 'Especifique a opção “'+q.op[a[i]].txt.replace(/[.?:]+$/,'')+'”.'; } return ''; }
+  if(q.k==='t'){ if(vazio(v)) return 'Responda esta questão.'; if(id==='b1q1' && v.trim().split(/\s+/).length<2) return 'Escreva nome e sobrenome.'; return ''; }
+  if(q.k==='e') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v||'').trim())?'':'Informe um e-mail completo, como nome@educacao.uf.gov.br.';
+  if(q.k==='f'){ var d=(v||'').replace(/\D/g,''); return d.length===10||d.length===11?'':'Informe o DDD e o número.'; }
+  if(q.k==='a') return vazio(v)?'Responda esta questão. Se a informação não estiver disponível, escreva isso.':'';
+  if(q.k==='u') return v?'':'Selecione o estado.';
+  if(q.k==='n'){ if(A[id+'_nd']) return ''; if(vazio(v)) return 'Informe um número ou marque que a Secretaria não tem essa informação.';
+    if(!/^\d+$/.test(String(v).trim())) return 'Use apenas números inteiros.';
+    if(q.lte){ var t=A[q.lte]; if(!A[q.lte+'_nd'] && t!=null && /^\d+$/.test(String(t).trim()) && +v > +t) return 'Não pode ser maior que o total informado na questão '+QI[q.lte].n+' ('+t+').'; }
+    return ''; }
+  if(q.k==='m'){ var mv=arr(v), f=0; q.lin.forEach(function(l,ri){ if(mv[ri]==null) f++; }); return f? 'Marque uma opção em cada linha (falta'+(f>1?'m '+f:' 1')+').' : ''; }
+  if(q.k==='p') return vazio(A[id+'_1'])?'Informe pelo menos a 1ª prioridade.':'';
+  return ''; }
+
+function mostraErro(q,force){ var w=$('w-'+q.id); if(!w) return; var msg=pendente(q), e=$(q.id+'-erro');
+  var exibir = force || w.classList.contains('invalida');
+  if(!exibir) return;
+  w.classList.toggle('invalida',!!msg); e.hidden=!msg; e.textContent=msg;
+  w.querySelectorAll('.q-in').forEach(function(el){ if(msg) el.setAttribute('aria-invalid','true'); else el.removeAttribute('aria-invalid'); });
+  if(msg){ var d=(w.getAttribute('aria-describedby')||''); if(d.indexOf(q.id+'-erro')<0) w.setAttribute('aria-describedby',(d+' '+q.id+'-erro').trim()); var inp=$(q.id); if(inp){ var di=inp.getAttribute('aria-describedby')||''; if(di.indexOf(q.id+'-erro')<0) inp.setAttribute('aria-describedby',(di+' '+q.id+'-erro').trim()); } } }
+
+function contagem(bi){ var b=BLOCOS[bi], tot=0, ok=0; b.qs.forEach(function(q){ if(!q.id||!visivel(q)) return; tot++; if(!pendente(q)) ok++; }); return [ok,tot]; }
+
+function aplicaMax(q){ if(!q.max) return; var w=$('w-'+q.id); if(!w) return; var n=arr(A[q.id]).length;
+  w.querySelectorAll('input[name="'+q.id+'"]').forEach(function(inp){ var bloq=!inp.checked && n>=q.max; inp.disabled=bloq; inp.closest('.opcao').classList.toggle('bloq',bloq); });
+  var c=$(q.id+'-cont'); if(c) c.textContent=n+' de '+q.max+' escolhidas'+(n>=q.max?'. Para trocar, desmarque uma.':'.'); }
+
+function atualizaOutros(q){ var w=$('w-'+q.id); if(!w) return; w.querySelectorAll('input[name="'+q.id+'"]').forEach(function(inp){ var oc=inp.closest('.opcao').nextElementSibling; if(oc && oc.classList.contains('outro-campo')) oc.hidden=!inp.checked; }); }
+
+function rerenderOpcoes(q){ var w=$('w-'+q.id); if(!w) return; var velho=w.querySelector('.opcoes')||w.querySelector('.instr:not([id])');
+  if(q.din && A[q.id]!=null && arr(A[q.din]).indexOf(A[q.id])<0) delete A[q.id];
+  var tmp=document.createElement('div'); tmp.innerHTML=htmlOpcoes(q);
+  if(velho) velho.replaceWith.apply(velho,[].slice.call(tmp.childNodes)); }
+
+function limpaResposta(id){ Object.keys(A).forEach(function(k){ if(k===id || k.indexOf(id+'_')===0) delete A[k]; }); }
+
+function aoMudar(ev){
+  var t=ev.target, w=t.closest('[data-q]'); if(!w) return; var q=QI[w.dataset.q];
+  var mOutro=/_o(\d+)$/.exec(t.id||'');
+  if(mOutro){ A[t.id]=t.value; }
+  else if(q.k==='r' && t.name===q.id){ A[q.id]=+t.value; atualizaOutros(q); }
+  else if(q.k==='c' && t.name===q.id){
+    var op=q.op[+t.value];
+    if(t.checked){ w.querySelectorAll('input[name="'+q.id+'"]').forEach(function(o){ if(o===t) return; var oo=q.op[+o.value]; if(op.excl || oo.excl) o.checked=false; }); }
+    A[q.id]=[].slice.call(w.querySelectorAll('input[name="'+q.id+'"]:checked')).map(function(o){ return +o.value; });
+    atualizaOutros(q); aplicaMax(q); }
+  else if(q.k==='f' && t.id===q.id){ var d=t.value.replace(/\D/g,'').slice(0,11); t.value = d.length>6? '('+d.slice(0,2)+') '+d.slice(2,d.length-4)+'-'+d.slice(-4) : d.length>2? '('+d.slice(0,2)+') '+d.slice(2) : d; A[q.id]=t.value; }
+  else if(q.k==='n' && t.id===q.id){ var lim=t.value.replace(/\D/g,''); if(lim!==t.value) t.value=lim; A[q.id]=t.value; }
+  else if(q.k==='n' && t.id===q.id+'_nd'){ A[t.id]=t.checked; var inp=$(q.id); inp.disabled=t.checked; if(t.checked){ inp.value=''; delete A[q.id]; } }
+  else if(q.k==='m'){ var m=/_r(\d+)$/.exec(t.name||''); if(m){ var mv=arr(A[q.id]).slice(); mv[+m[1]]=+t.value; A[q.id]=mv; } }
+  else if(q.k==='p'){ A[t.id]=t.value; }
+  else if(t.id===q.id){ A[q.id]=t.value; }
+  // dependências
+  (DEPENDENTES[q.id]||[]).forEach(function(did){ var dq=QI[did], dw=$('w-'+did);
+    if(dq.din){ rerenderOpcoes(dq); }
+    if(dw){ var vis=visivel(dq); dw.hidden=!vis; if(!vis) limpaResposta(did); } });
+  if(q.k==='c' && q.id==='b6q14'){ /* rótulo do Outro em b6q15 */ }
+  if(mOutro && q.id==='b6q14') rerenderOpcoes(QI.b6q15);
+  if(q.k==='n'){ ['b5q4','b5q6'].forEach(function(id){ var x=A[id]; if(x!=null && x!=='') mostraErro(QI[id],true); }); }
+  mostraErro(q, revisado && ev.type==='change');
+  if(revisado || $('w-'+q.id).classList.contains('invalida')) mostraErro(q,false);
+  etapas(); progressoBloco(); salva(); }
+
+function progressoBloco(){ if(passo<1||passo>BLOCOS.length) return; var c=contagem(passo-1), b=$('q-barra'), l=$('q-cont'); if(b) b.style.width=(c[1]?c[0]/c[1]*100:0)+'%'; if(l) l.textContent=c[0]+' de '+c[1]+' questões respondidas'; }
+
+function etapas(){ var ol=$('q-etapas'), nomes=['Apresentação'].concat(BLOCOS.map(function(b,i){ return 'Bloco '+(i+1)+' · '+b.curto; }),['Revisão e envio']);
+  ol.innerHTML=nomes.map(function(n,i){ var cont='', ok=false;
+    if(i>=1 && i<=BLOCOS.length){ var c=contagem(i-1); cont=c[0]+'/'+c[1]; ok=c[0]===c[1]; }
+    return '<li class="'+(i===passo?'atual':'')+(ok?' ok':'')+'"><button type="button" data-passo="'+i+'"'+(i===passo?' aria-current="step"':'')+'><span class="marcador">'+(ok?'✓':(i===0?'i':i===NPASSOS-1?'★':i))+'</span><span>'+esc(n)+'</span>'+(cont?'<span class="contagem">'+cont+'<span class="sr-only"> respondidas</span></span>':'')+'</button></li>'; }).join(''); }
+
+var AVISO='<div class="aviso-andamento" role="note"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4L37 34H3Z" fill="#FFC83D" stroke="#1E2A4A" stroke-width="2.5" stroke-linejoin="round"/><path d="M20 15v9" stroke="#1E2A4A" stroke-width="3.5" stroke-linecap="round"/><circle cx="20" cy="29" r="2.2" fill="#1E2A4A"/></svg><div><h3>Este questionário ainda está em elaboração</h3><p>As perguntas, as opções e a ordem podem mudar antes da versão final. Nesta demonstração, nenhuma resposta é enviada. O rascunho fica só neste navegador e não inclui nome, e-mail e telefone.</p></div></div>';
+
+function renderPasso(foco){
+  var corpo=$('q-corpo'), h='';
+  if(enviado){ corpo.innerHTML='<div class="sucesso"><svg class="giz-inline" data-forma="flor" data-seed="4" viewBox="0 0 200 200" width="120" height="120" aria-hidden="true" style="color:var(--verde)"></svg><h2 id="q-h" tabindex="-1">Respostas registradas</h2><p class="apoio">Nesta demonstração, nada foi enviado. No sistema real, a Secretaria receberia um comprovante por e-mail e poderia revisar as respostas até o fim do prazo.</p><button type="button" class="btn btn-secundario" id="q-recomecar">Começar de novo</button></div>';
+    desenhaGizIn(corpo); $('q-ant').hidden=true; $('q-prox').hidden=true; etapas(); if(foco) $('q-h').focus(); return; }
+  $('q-ant').hidden=false; $('q-prox').hidden=false;
+  if(passo===0){
+    h=AVISO+'<div class="intro-q" style="margin-top:28px"><div class="q-cab"><p class="rotulo">Apresentação</p><h2 id="q-h" tabindex="-1">Consulta sobre o uso do INDIQUE e alinhamento aos PNQEEI nas redes estaduais e no DF</h2></div>'+
+      '<p><b>Objetivo.</b> Identificar, desde 2024, o estágio de implementação dos Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil (PNQEEI) e das ações relacionadas à Resolução CNE/CEB nº 1/2024. A consulta investiga também como as Secretarias orientam o uso dos Indicadores da Qualidade na Educação Infantil (INDIQUE), utilizam seus resultados e articulam o instrumento com os PNQEEI.</p>'+
+      '<p>As respostas devem ser construídas, sempre que possível, com a equipe técnica responsável pela Educação Infantil na Secretaria ou com os setores diretamente envolvidos na implementação, no acompanhamento e no monitoramento das políticas de Educação Infantil. O objetivo é reunir informações institucionais atualizadas e representativas, e não apenas o conhecimento individual de quem responde.</p>'+
+      '<aside class="pautada" aria-label="Como responder"><h3>Como responder</h3><ul><li>Responda em nome da Secretaria, de preferência pelo(a) dirigente ou pela equipe de Educação Infantil.</li><li>Se uma informação não estiver disponível ou ainda não tiver sido sistematizada, indique isso na resposta.</li><li>São 6 blocos. Tempo estimado: a definir.</li><li>As informações são analisadas de forma agregada, conforme a LGPD (Lei nº 13.709/2018).</li></ul></aside></div>';
+    $('q-prox').textContent='Começar'; $('q-ant').hidden=true;
+  } else if(passo<=BLOCOS.length){
+    var b=BLOCOS[passo-1];
+    h='<div class="q-cab"><p class="rotulo">Bloco '+passo+' de '+BLOCOS.length+'<span class="tag-prel">Versão preliminar</span></p><h2 id="q-h" tabindex="-1">'+esc(b.t)+'</h2><div class="barra" aria-hidden="true"><span id="q-barra"></span></div><p class="dica" id="q-cont"></p></div>'+b.qs.map(function(q){ return htmlQ(q,b); }).join('');
+    $('q-prox').textContent= passo<BLOCOS.length? 'Próximo bloco' : 'Revisar respostas';
+    $('q-ant').textContent='Bloco anterior';
+  } else {
+    var falta=[];
+    BLOCOS.forEach(function(b,bi){ var itens=[]; b.qs.forEach(function(q){ var m=pendente(q); if(m) itens.push([q,m]); }); if(itens.length) falta.push([bi,itens]); });
+    h='<div class="q-cab"><p class="rotulo">Última etapa</p><h2 id="q-h" tabindex="-1">Revisão e envio</h2></div>';
+    if(falta.length){ var n=falta.reduce(function(s,x){ return s+x[1].length; },0);
+      h+='<div class="resumo-erros" style="margin-top:20px"><h2>Faltam '+n+' '+(n>1?'questões':'questão')+' para enviar</h2><p>Clique em uma questão para ir até ela.</p><div class="pendencias">'+falta.map(function(x){ return '<div><h3>Bloco '+(x[0]+1)+' · '+esc(BLOCOS[x[0]].curto)+'</h3><ul>'+x[1].map(function(it){ var t=it[0].t; return '<li><button type="button" class="btn-texto" data-ir="'+it[0].id+'">Questão '+it[0].n+': '+esc(t.length>90?t.slice(0,88)+'…':t)+'</button><br><span style="color:var(--erro)">'+esc(it[1])+'</span></li>'; }).join('')+'</ul></div>'; }).join('')+'</div></div>';
+    } else h+='<p class="tudo-ok" style="margin-top:20px"><span aria-hidden="true">✓</span>Todas as questões foram respondidas. Você pode revisar qualquer bloco pelo menu ao lado antes de enviar.</p>';
+    h+='<p class="dica" style="margin-top:16px">Questionário em versão preliminar: nesta demonstração, nada é enviado.</p>';
+    $('q-prox').textContent='Enviar respostas'; $('q-ant').textContent='Bloco anterior';
+    revisado=true;
+  }
+  corpo.innerHTML=h;
+  if(passo>=1 && passo<=BLOCOS.length){ BLOCOS[passo-1].qs.forEach(function(q){ if(!q.id) return; aplicaMax(q); if(revisado && pendente(q)) mostraErro(q,true); }); progressoBloco(); }
+  etapas();
+  if(foco){ var card=document.querySelector('#vista-consulta .form-cartao'); var y=card.getBoundingClientRect().top+window.scrollY-96; if(Math.abs(window.scrollY-y)>40) window.scrollTo(0,Math.max(0,y)); $('q-h').focus({preventScroll:true}); }
+}
+function desenhaGizIn(raiz){ raiz.querySelectorAll('svg[data-forma]').forEach(function(el){ var g=PNQ.formas[el.dataset.forma]; if(!g) return; var o=g(PNQ.rng(parseInt(el.dataset.seed||'1',10)*7919)); el.innerHTML=o[0]; }); }
+
+function irPara(id){ var q=QI[id]; passo=q.b; renderPasso(false); var w=$('w-'+id); mostraErro(q,true); var y=w.getBoundingClientRect().top+window.scrollY-110; window.scrollTo(0,y); var f=w.querySelector('input:not([disabled]),textarea,select'); if(f) f.focus({preventScroll:true}); }
+
+/* Rascunho local (sem dados pessoais) */
+var timerSalva=null;
+function salva(){ clearTimeout(timerSalva); timerSalva=setTimeout(function(){ var c={}; Object.keys(A).forEach(function(k){ var base=k.split('_')[0]; if(QI[base] && QI[base].pii) return; c[k]=A[k]; });
+  try{ localStorage.setItem(KEY,JSON.stringify({v:1,A:c,passo:passo,t:Date.now()})); var d=new Date(); $('q-status').textContent='Rascunho salvo neste navegador às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'.'; }
+  catch(e){ $('q-status').textContent='Não foi possível salvar o rascunho neste navegador.'; } },400); }
+function carrega(){ try{ var s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s && s.v===1 && s.A){ A=s.A; passo=Math.min(Math.max(+s.passo||0,0),NPASSOS-1); $('q-status').textContent='Rascunho recuperado deste navegador.'; } }catch(e){} }
+
+function preencheExemplo(){ var r=PNQ.rng(2026*31); var pick=function(n){ return Math.floor(r()*n); };
+  A={}; BLOCOS.forEach(function(b){ b.qs.forEach(function(q){ if(!q.id || !visivel(q)) return; var id=q.id;
+    if(q.k==='t') A[id]='Pessoa Fictícia de Exemplo';
+    else if(q.k==='e') A[id]='exemplo@exemplo.gov.br';
+    else if(q.k==='f') A[id]='(00) 00000-0000';
+    else if(q.k==='u') A[id]=UFS[pick(UFS.length)][0];
+    else if(q.k==='a') A[id]='Resposta fictícia, usada só para demonstrar o preenchimento.';
+    else if(q.k==='n'){ A.b5q5='184'; A.b5q4='120'; A.b5q7='3200'; A.b5q6='1900'; }
+    else if(q.k==='m') A[id]=q.lin.map(function(){ return pick(4); });
+    else if(q.k==='p'){ A[id+'_1']='Ampliar a formação continuada das equipes municipais'; A[id+'_2']='Fortalecer a autoavaliação com o INDIQUE'; A[id+'_3']='Reduzir desigualdades entre municípios'; }
+    else if(q.k==='r'){ var ops=opsDe(q).filter(function(x){ return !x.o.outro && !x.o.excl; }); if(q.din) ops=opsDe(q); if(ops.length) A[id]=ops[pick(ops.length)].i; }
+    else if(q.k==='c'){ var cand=q.op.map(function(o,i){ return i; }).filter(function(i){ return !q.op[i].outro && !q.op[i].excl; }); var n=Math.min(q.max||3,1+pick(3)), sel=[]; while(sel.length<n && cand.length){ sel.push(cand.splice(pick(cand.length),1)[0]); } A[id]=sel.sort(function(a,b){ return a-b; }); }
+  }); }); }
+
+function iniciaConsulta(){ if(iniciaConsulta.ok) return; iniciaConsulta.ok=true; carrega(); renderPasso(false);
+  var form=$('form-consulta');
+  form.addEventListener('submit',function(e){ e.preventDefault(); });
+  form.addEventListener('change',aoMudar); form.addEventListener('input',function(e){ if(e.target.matches('input[type=text],input:not([type]),input[type=email],input[type=tel],textarea')) aoMudar(e); });
+  form.addEventListener('click',function(e){ var b=e.target.closest('[data-ir]'); if(b){ irPara(b.dataset.ir); } if(e.target.id==='q-recomecar'){ enviado=false; A={}; passo=0; revisado=false; try{ localStorage.removeItem(KEY); }catch(x){} renderPasso(true); } });
+  $('q-etapas').addEventListener('click',function(e){ var b=e.target.closest('[data-passo]'); if(!b||enviado) return; passo=+b.dataset.passo; renderPasso(true); salva(); });
+  $('q-ant').addEventListener('click',function(){ if(passo>0){ passo--; renderPasso(true); salva(); } });
+  $('q-prox').addEventListener('click',function(){
+    if(passo<NPASSOS-1){ passo++; renderPasso(true); salva(); return; }
+    var falta=0; BLOCOS.forEach(function(b){ b.qs.forEach(function(q){ if(pendente(q)) falta++; }); });
+    if(falta){ renderPasso(true); var r=document.querySelector('#q-corpo .resumo-erros'); if(r){ r.setAttribute('tabindex','-1'); r.focus(); } return; }
+    enviado=true; renderPasso(true); });
+  $('q-exemplo').addEventListener('click',function(){ preencheExemplo(); renderPasso(true); salva(); $('q-status').textContent='Preenchemos respostas fictícias. Revise à vontade.'; });
+  var conf=null; $('q-limpar').addEventListener('click',function(){ var b=this;
+    if(!conf){ b.textContent='Confirmar: apagar todas as respostas'; conf=setTimeout(function(){ b.textContent='Apagar respostas'; conf=null; },4000); return; }
+    clearTimeout(conf); conf=null; b.textContent='Apagar respostas'; A={}; revisado=false; enviado=false; passo=0; try{ localStorage.removeItem(KEY); }catch(e){} renderPasso(true); $('q-status').textContent='Respostas apagadas.'; });
+}
+
+/* =====================================================================
+   DESENHO EM CANVAS: selo, certificado, post e story
+   ===================================================================== */
+var C={papel:'#FCFAF5',tinta:'#1E2A4A',tinta2:'#4B5470',amarelo:'#FFC83D',rosa:'#F27BB4',azul:'#4DB3EB',verde:'#8DCB4A',laranja:'#FF9A3C',lilas:'#A486F0',rosa7:'#A0266A',azul7:'#145F8E',lilas7:'#5A3DB0',amarelo7:'#7A5400',amarelo1:'#FFF3CF',azul1:'#E1F2FC',lilas1:'#EEE8FD',rosa1:'#FDE6F0'};
+var fontes=null;
+function fontesProntas(){ if(!fontes){ fontes=Promise.all(['900 40px Nunito','800 40px Nunito','700 40px Nunito','400 40px "Source Sans 3"','italic 400 40px "Source Sans 3"','600 40px "Source Sans 3"','600 40px Caveat'].map(function(f){ return document.fonts.load(f).catch(function(){}); })).then(function(){ return document.fonts.ready; }).catch(function(){}); } return fontes; }
+function espaco(c,px){ if('letterSpacing' in c) c.letterSpacing=px+'px'; }
+function quebra(c,txt,max){ var p=String(txt).split(/\s+/), linhas=[], l=''; p.forEach(function(w){ var t=l?l+' '+w:w; if(c.measureText(t).width>max && l){ linhas.push(l); l=w; } else l=t; }); if(l) linhas.push(l); return linhas; }
+
+function quebraEq(c,txt,max){ var n=quebra(c,txt,max).length; if(n<2) return quebra(c,txt,max); var lo=max*.4, hi=max; for(var i=0;i<14;i++){ var m=(lo+hi)/2; if(quebra(c,txt,m).length<=n) hi=m; else lo=m; } return quebra(c,txt,hi+1); }
+function desenhaSelo(c,cx,cy,R,ano){
+  c.save();
+  [[-1,C.rosa],[1,C.azul]].forEach(function(f){ var s=f[0]; c.fillStyle=f[1]; c.beginPath();
+    c.moveTo(cx+s*R*.12,cy+R*.62); c.lineTo(cx+s*R*.62,cy+R*.44); c.lineTo(cx+s*R*.8,cy+R*1.2); c.lineTo(cx+s*R*.6,cy+R*1.06); c.lineTo(cx+s*R*.42,cy+R*1.3); c.closePath(); c.fill(); });
+  var N=30; c.beginPath();
+  for(var i=0;i<N;i++){ var a0=i/N*Math.PI*2-Math.PI/2, a1=(i+1)/N*Math.PI*2-Math.PI/2, am=(a0+a1)/2;
+    if(i===0) c.moveTo(cx+Math.cos(a0)*R*.93,cy+Math.sin(a0)*R*.93);
+    c.quadraticCurveTo(cx+Math.cos(am)*R*1.07,cy+Math.sin(am)*R*1.07,cx+Math.cos(a1)*R*.93,cy+Math.sin(a1)*R*.93); }
+  c.closePath(); c.fillStyle=C.amarelo; c.fill(); c.lineWidth=R*.012; c.strokeStyle='rgba(122,84,0,.35)'; c.stroke();
+  c.beginPath(); c.arc(cx,cy,R*.85,0,Math.PI*2); c.fillStyle=C.tinta; c.fill();
+  c.beginPath(); c.arc(cx,cy,R*.6,0,Math.PI*2); c.setLineDash([R*.035,R*.028]); c.lineWidth=R*.014; c.strokeStyle='rgba(255,255,255,.6)'; c.stroke(); c.setLineDash([]);
+  c.beginPath(); c.arc(cx,cy,R*.55,0,Math.PI*2); c.fillStyle=C.papel; c.fill();
+  // texto circular
+  var txt='REDE COMPROMETIDA • QUALIDADE E EQUIDADE NA EDUCAÇÃO INFANTIL • ', rt=R*.725, fs=R*.1, circ=Math.PI*2*rt;
+  espaco(c,0); c.font='800 '+fs+'px Nunito'; var ch=Array.from(txt), ws=ch.map(function(x){ return c.measureText(x).width; }), tot=ws.reduce(function(a,b){ return a+b; },0);
+  if(tot>circ*.97){ fs*=circ*.97/tot; c.font='800 '+fs+'px Nunito'; ws=ch.map(function(x){ return c.measureText(x).width; }); tot=ws.reduce(function(a,b){ return a+b; },0); }
+  var extra=(circ-tot)/ch.length, seg=0; for(var k=0;k<'REDE COMPROMETIDA'.length;k++) seg+=ws[k]+extra;
+  var ang=-Math.PI/2-seg/rt/2; c.fillStyle='#FFFFFF'; c.textAlign='center'; c.textBaseline='middle';
+  ch.forEach(function(x,j){ var aw=(ws[j]+extra)/rt, a=ang+aw/2; c.save(); c.translate(cx+Math.cos(a)*rt,cy+Math.sin(a)*rt); c.rotate(a+Math.PI/2); c.fillText(x,0,0); c.restore(); ang+=aw; });
+  // centro
+  var d=R*.062, r=R*.045; [[-1,-1,C.amarelo],[1,-1,C.rosa],[-1,1,C.azul],[1,1,C.verde]].forEach(function(p){ c.beginPath(); c.arc(cx+p[0]*d,cy-R*.3+p[1]*d,r,0,Math.PI*2); c.fillStyle=p[2]; c.fill(); });
+  c.textBaseline='alphabetic'; c.fillStyle=C.tinta; var f2=R*.2; c.font='900 '+f2+'px Nunito'; var wP=c.measureText('PNQEEI').width; if(wP>R*.98){ f2*=R*.98/wP; c.font='900 '+f2+'px Nunito'; }
+  c.fillText('PNQEEI',cx,cy+R*.07);
+  espaco(c,R*.012); c.font='800 '+(R*.075)+'px Nunito'; c.fillStyle=C.rosa7; c.fillText('ADESÃO',cx,cy+R*.2);
+  espaco(c,0); c.font='900 '+(R*.12)+'px Nunito'; c.fillStyle=C.tinta; c.fillText(String(ano),cx,cy+R*.37);
+  c.restore(); }
+
+var FILTRO='<filter id="f" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="o"/><feDisplacementMap in="SourceGraphic" in2="o" scale="5" xChannelSelector="R" yChannelSelector="G" result="t"/><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="11" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.6 0 0 0 1.85" result="m"/><feComposite in="t" in2="m" operator="in"/></filter>';
+function svgImg(svg){ return new Promise(function(ok){ var im=new Image(); im.onload=function(){ ok(im); }; im.onerror=function(){ ok(null); }; im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg); }); }
+function gizSvg(corpo,vb,cor,w){ var p=vb.split(' ').map(Number), h=Math.round(w*p[3]/p[2]);
+  return svgImg('<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+vb+'" width="'+Math.round(w)+'" height="'+h+'"><defs>'+FILTRO+'</defs><g filter="url(#f)" fill="none" stroke="'+cor+'" stroke-linecap="round" stroke-linejoin="round">'+corpo.replace(/class="cheio"/g,'fill="'+cor+'" stroke="none"')+'</g></svg>').then(function(im){ return im?{im:im,w:w,h:h}:null; }); }
+async function giz(c,esc2,forma,seed,cor,x,y,w,rot,alfa){ var o=PNQ.formas[forma](PNQ.rng(seed*7919)); var g=await gizSvg(o[0],o[1],cor,w*esc2); if(!g) return;
+  c.save(); c.globalAlpha=alfa==null?1:alfa; c.translate(x+w/2,y+w*g.h/g.w/2); c.rotate((rot||0)*Math.PI/180); c.drawImage(g.im,-w/2,-w*g.h/g.w/2,w,w*g.h/g.w); c.restore(); }
+async function gizLinha(c,esc2,cor,x,y,w,h){ var g=await gizSvg('<path d="M8 24C70 16 160 22 292 14" stroke-width="24"/>','0 0 300 40',cor,w*esc2); if(g) c.drawImage(g.im,x,y,w,h); }
+function pontos(c,W,H,passo,cor,r){ c.fillStyle=cor; for(var x=passo/2;x<W;x+=passo) for(var y=passo/2;y<H;y+=passo){ c.beginPath(); c.arc(x,y,r,0,Math.PI*2); c.fill(); } }
+function rr(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+var INST={pnqeei:{curto:'PNQEEI',bg:C.amarelo1,fg:C.amarelo7,bd:C.amarelo,longo:'aos Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil (PNQEEI, 2024)'},
+          indique:{curto:'INDIQUE',bg:C.azul1,fg:C.azul7,bd:C.azul,longo:'aos Indicadores da Qualidade na Educação Infantil (INDIQUE)'},
+          rr:{curto:'INDIQUE Relações Raciais',bg:C.lilas1,fg:C.lilas7,bd:C.lilas,longo:'aos Indicadores da Qualidade na Educação – Relações Raciais na Educação Infantil'}};
+function pilula(c,x,y,inst,fs){ c.font='800 '+fs+'px Nunito'; espaco(c,0); var w=c.measureText(inst.curto).width+fs*1.6, h=fs*1.9; rr(c,x,y,w,h,h/2); c.fillStyle=inst.bg; c.fill(); c.lineWidth=fs*.12; c.strokeStyle=inst.bd; c.stroke(); c.fillStyle=inst.fg; c.textAlign='left'; c.textBaseline='middle'; c.fillText(inst.curto,x+fs*.8,y+h/2+fs*.04); c.textBaseline='alphabetic'; return w; }
+function larguraPilula(c,inst,fs){ c.font='800 '+fs+'px Nunito'; return c.measureText(inst.curto).width+fs*1.6; }
+function listaInst(d){ var l=d.inst.map(function(k){ return INST[k].longo; }); return l.length>1? l.slice(0,-1).join(', ')+' e '+l[l.length-1] : l[0]; }
+function faixaCores(c,x,y,w,h){ [C.amarelo,C.rosa,C.azul,C.verde].forEach(function(cor,i){ c.fillStyle=cor; c.fillRect(x+i*w/4,y,w/4+1,h); }); }
+function marca(c,x,y,s){ rr(c,x,y,s,s,s*.27); c.fillStyle=C.tinta; c.fill(); [[.3,.32,C.amarelo],[.7,.32,C.rosa],[.3,.7,C.azul],[.7,.7,C.verde]].forEach(function(p){ c.beginPath(); c.arc(x+p[0]*s,y+p[1]*s,s*.115,0,Math.PI*2); c.fillStyle=p[2]; c.fill(); }); }
+var PROTOTIPO=true; /* trocar para false quando houver registro e verificação reais */
+
+async function certificado(d){
+  var W=3508,H=2480,cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d'), s=W/1123; c.scale(s,s);
+  c.fillStyle=C.papel; c.fillRect(0,0,1123,794); pontos(c,1123,794,22,'#E9E3D6',.9);
+  await giz(c,s,'mancha',11,C.amarelo,78,118,330,0,.38);
+  await giz(c,s,'asterisco',2,C.rosa,1000,90,62,0,1);
+  await giz(c,s,'espiral',4,C.azul,46,560,96,0,.95);
+  await giz(c,s,'mola',3,C.verde,318,600,118,-6,.9);
+  rr(c,24,24,1075,746,18); c.lineWidth=2.5; c.strokeStyle=C.tinta; c.stroke();
+  faixaCores(c,64,46,995,8);
+  desenhaSelo(c,250,280,138,d.ano);
+  var fsP=14, gap=10, y=476; d.inst.forEach(function(k){ var w=larguraPilula(c,INST[k],fsP); pilula(c,250-w/2,y,INST[k],fsP); y+=fsP*1.9+gap; });
+  var x0=470, mw=590;
+  c.textAlign='left'; c.fillStyle=C.rosa7; c.font='800 15px Nunito'; espaco(c,3); c.fillText('CERTIFICADO DE ADESÃO',x0,112); espaco(c,0);
+  c.fillStyle=C.tinta2; c.font='400 21px "Source Sans 3"'; c.fillText('Certificamos que a',x0,152);
+  var fs=40, linhas; do{ c.font='900 '+fs+'px Nunito'; linhas=quebra(c,d.sec,mw); if(linhas.length<=3) break; fs-=2; }while(fs>26);
+  var lh=fs*1.14, yN=152+lh+6, ult=linhas[linhas.length-1], wU=Math.min(mw,c.measureText(ult).width);
+  await gizLinha(c,s,C.amarelo,x0-6,yN+(linhas.length-1)*lh+fs*.1,wU+12,fs*.42);
+  c.font='900 '+fs+'px Nunito'; c.fillStyle=C.tinta; linhas.forEach(function(l,i){ c.fillText(l,x0,yN+i*lh); });
+  var yP=yN+(linhas.length-1)*lh+44, par='aderiu, por meio de seu(sua) titular, '+listaInst(d)+', comprometendo-se a usá-los como referência para planejar, autoavaliar e monitorar a qualidade e a equidade da Educação Infantil em sua rede.';
+  var fp=19; do{ c.font='400 '+fp+'px "Source Sans 3"'; var lp=quebra(c,par,mw); if(yP+(lp.length-1)*fp*1.5<=556) break; fp-=1; }while(fp>14);
+  c.fillStyle=C.tinta; lp.forEach(function(l,i){ c.fillText(l,x0,yP+i*fp*1.5); });
+  c.font='600 40px Caveat'; c.fillStyle=C.tinta; var fsA=40; while(c.measureText(d.nome).width>300 && fsA>24){ fsA-=2; c.font='600 '+fsA+'px Caveat'; } c.fillText(d.nome,x0+4,604);
+  c.beginPath(); c.moveTo(x0,616); c.lineTo(x0+320,616); c.lineWidth=1.5; c.strokeStyle=C.tinta; c.stroke();
+  c.font='800 15px Nunito'; c.fillText(d.nome,x0,640); c.font='400 14px "Source Sans 3"'; c.fillStyle=C.tinta2; c.fillText(d.cargo,x0,660);
+  var x2=830; c.font='700 13px Nunito'; c.fillStyle=C.tinta2; c.fillText('Emitido em',x2,588); c.font='800 17px Nunito'; c.fillStyle=C.tinta; c.fillText(d.data,x2,610);
+  c.font='700 13px Nunito'; c.fillStyle=C.tinta2; c.fillText('Código de verificação',x2,640); c.font='900 17px Nunito'; c.fillStyle=C.lilas7; espaco(c,1); c.fillText(d.codigo,x2,662); espaco(c,0);
+  c.beginPath(); c.setLineDash([5,5]); c.moveTo(64,694); c.lineTo(1059,694); c.lineWidth=1.2; c.strokeStyle='#D9D2C2'; c.stroke(); c.setLineDash([]);
+  c.font='400 12.5px "Source Sans 3"'; c.fillStyle=C.tinta2; quebra(c,'Projeto Promoção da Qualidade e Equidade na Educação Infantil: consulta nacional e monitoramento do uso de indicadores de qualidade à luz dos PNQEEI (2024).',600).forEach(function(l,i){ c.fillText(l,64,720+i*17); });
+  if(PROTOTIPO){ c.font='italic 400 11.5px "Source Sans 3"'; c.fillStyle=C.rosa7; c.fillText('Modelo de demonstração, sem validade. Logos e texto sujeitos à aprovação.',64,756); }
+  var lx=1059; ['Governo Federal','MEC','UFC'].forEach(function(t){ c.font='700 11px Nunito'; var w=Math.max(70,c.measureText(t).width+24); lx-=w; rr(c,lx,708,w,40,5); c.fillStyle='rgba(255,255,255,.8)'; c.fill(); c.setLineDash([4,3]); c.lineWidth=1; c.strokeStyle='#B9B2A2'; c.stroke(); c.setLineDash([]); c.fillStyle=C.tinta2; c.textAlign='center'; c.fillText(t,lx+w/2,732); c.textAlign='left'; lx-=10; });
+  return cv; }
+
+async function peca(d,H){
+  var W=1080, cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d'), st=H>1500;
+  c.fillStyle=C.papel; c.fillRect(0,0,W,H); pontos(c,W,H,32,'#E3DCCB',1.7);
+  var cy=st?640:372, R=st?290:192;
+  await giz(c,1,'mancha',11,C.amarelo,cy>500?200:250,cy-R*1.25,st?680:560,0,.45);
+  await giz(c,1,'asterisco',2,C.rosa,56,st?110:46,st?130:104,0,1);
+  await giz(c,1,'espiral',4,C.azul,st?900:910,st?150:70,st?140:120,0,1);
+  await giz(c,1,'flor',1,C.verde,st?40:34,st?890:470,st?150:116,0,1);
+  await giz(c,1,'rabisco',13,C.laranja,st?920:930,st?980:560,st?150:120,75,1);
+  c.textAlign='center'; c.fillStyle=C.rosa7; c.font='800 '+(st?36:28)+'px Nunito'; espaco(c,4); c.fillText('TERMO DE ADESÃO · '+d.ano,W/2,st?250:110); espaco(c,0);
+  desenhaSelo(c,W/2,cy-(st?40:28),R,d.ano);
+  var y=st?1180:726, f1=st?84:62; c.font='900 '+f1+'px Nunito'; c.fillStyle=C.tinta; var l1=quebraEq(c,'Nossa rede aderiu aos PNQEEI!',st?900:960); l1.forEach(function(l,i){ c.fillText(l,W/2,y+i*f1*1.08); }); y+=(l1.length-1)*f1*1.08;
+  var f2=st?40:30; c.font='700 '+f2+'px Nunito'; c.fillStyle=C.tinta2; var l2=quebraEq(c,d.sec,st?880:900); if(l2.length>2){ f2=st?34:26; c.font='700 '+f2+'px Nunito'; l2=quebraEq(c,d.sec,st?880:920).slice(0,3); }
+  y+=st?90:58; l2.forEach(function(l,i){ c.fillText(l,W/2,y+i*f2*1.25); }); y+=(l2.length-1)*f2*1.25+(st?80:46);
+  var fp=st?30:22, tw=d.inst.reduce(function(a,k){ return a+larguraPilula(c,INST[k],fp); },0)+(d.inst.length-1)*14, x=(W-tw)/2;
+  d.inst.forEach(function(k){ x+=pilula(c,x,y,INST[k],fp)+14; });
+  c.textAlign='left'; var my=H-(st?190:100), ms=st?56:44, label='Qualidade e Equidade na Educação Infantil'; c.font='900 '+(st?30:24)+'px Nunito'; var lw=c.measureText(label).width, mx=(W-(ms+16+lw))/2;
+  marca(c,mx,my,ms); c.fillStyle=C.tinta; c.textBaseline='middle'; c.fillText(label,mx+ms+16,my+ms/2+2); c.textBaseline='alphabetic';
+  if(PROTOTIPO){ c.textAlign='center'; c.font='italic 400 '+(st?22:17)+'px "Source Sans 3"'; c.fillStyle=C.rosa7; c.fillText('Modelo de demonstração',W/2,H-(st?110:40)); }
+  faixaCores(c,0,H-(st?28:20),W,st?28:20);
+  return cv; }
+
+function blobDe(cv,tipo,q){ return new Promise(function(ok){ cv.toBlob(function(b){ ok(b); },tipo,q); }); }
+var jspdfP=null;
+function carregaJsPDF(){ if(window.jspdf) return Promise.resolve(window.jspdf); if(!jspdfP) jspdfP=new Promise(function(ok,err){ var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'; s.onload=function(){ window.jspdf?ok(window.jspdf):err(new Error('jspdf')); }; s.onerror=function(){ jspdfP=null; err(new Error('jspdf')); }; document.head.appendChild(s); }); return jspdfP; }
+
+function desenhaSelosPagina(){ fontesProntas().then(function(){ document.querySelectorAll('canvas[data-selo]').forEach(function(cv){ var c=cv.getContext('2d'), W=cv.width; c.clearRect(0,0,W,cv.height); desenhaSelo(c,W/2,W*.41,W*.335,ANO); }); }); }
+
+/* =====================================================================
+   ADESÃO
+   ===================================================================== */
+var dl=null, dlResolvido=false, arquivos={}, urls=[];
+function atualizaBaixar(){ document.querySelectorAll('[data-baixar]').forEach(function(el){ el.hidden=!dl; });
+  if(dlResolvido && !dl && !$('adesao-resultado').hidden) $('dl-status').textContent='Para baixar os arquivos, abra esta página no Claude. Aqui você vê as prévias.'; }
+/* Fora do Claude (site publicado em servidor comum), o navegador baixa o arquivo diretamente. */
+var dlNavegador={save:function(r){ return new Promise(function(ok,err){ try{ var u=URL.createObjectURL(r.data), a=document.createElement('a'); a.href=u; a.download=r.filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },4000); ok({status:'saved'}); }catch(x){ err({code:'unavailable'}); } }); }};
+try{ if(window.claude && typeof window.claude.use==='function'){ window.claude.use('downloads').then(function(ns){ dl=ns||null; dlResolvido=true; atualizaBaixar(); },function(){ dlResolvido=true; atualizaBaixar(); }); } else { dl=dlNavegador; dlResolvido=true; } }catch(e){ dl=dlNavegador; dlResolvido=true; }
+
+function slug(t){ return t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50)||'rede'; }
+function codigo(){ var al='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', v=new Uint8Array(8); (window.crypto||{getRandomValues:function(a){ for(var i=0;i<a.length;i++) a[i]=Math.random()*256; return a; }}).getRandomValues(v); var s=''; for(var i=0;i<8;i++) s+=al[v[i]%al.length]; return 'PNQEEI-'+ANO+'-'+s.slice(0,4)+'-'+s.slice(4); }
+function norm(t){ return (t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim(); }
+
+function iniciaAdesao(){ if(iniciaAdesao.ok) return; iniciaAdesao.ok=true;
+  var uf=$('ad-uf'); uf.innerHTML='<option value="">Selecione</option>'+UFS.map(function(u){ return '<option value="'+u[0]+'">'+u[1]+'</option>'; }).join('');
+  var secEditada=false, form=$('form-adesao');
+  function esfera(){ var r=form.querySelector('input[name="ad-esfera"]:checked'); return r?r.value:''; }
+  function sugere(){ if(secEditada) return; var e=esfera(), u=ufNome(uf.value), m=$('ad-mun').value.trim(), s='';
+    if(e==='distrital') s='Secretaria de Estado de Educação do Distrito Federal';
+    else if(e==='estadual' && u) s='Secretaria de Estado da Educação '+u[2]+' '+u[1];
+    else if(e==='municipal' && m && u) s='Secretaria Municipal de Educação de '+m+' ('+u[0]+')';
+    $('ad-sec').value=s; termo(); }
+  function inst(){ var l=['pnqeei']; if($('ad-indique').checked) l.push('indique'); if($('ad-rr').checked) l.push('rr'); return l; }
+  function termo(){ var m={secretaria:$('ad-sec').value.trim()||'Secretaria de Educação',nome:$('ad-nome').value.trim()||'nome do(a) secretário(a)',instrumentos:inst().map(function(k){ return INST[k].curto; }).join(', ').replace(/, ([^,]*)$/,' e $1')};
+    document.querySelectorAll('.termo [data-t]').forEach(function(el){ el.textContent=m[el.dataset.t]; }); }
+  form.addEventListener('change',function(e){ if(e.target.name==='ad-esfera'){ var v=esfera(); $('ad-mun-box').hidden=v!=='municipal'; if(v==='distrital'){ uf.value='DF'; uf.disabled=true; } else uf.disabled=false; checaA('esfera',true); } sugere(); termo(); });
+  form.addEventListener('input',function(e){ if(e.target.id==='ad-sec') secEditada=!!e.target.value.trim(); if(e.target.id==='ad-mun') sugere(); termo(); var k=(e.target.id||'').replace('ad-',''); if(regrasA[k] && e.target.closest('.campo') && e.target.closest('.campo').classList.contains('invalido')) checaA(k,true); });
+  form.addEventListener('focusout',function(e){ var k=(e.target.id||'').replace('ad-',''); if(regrasA[k] && e.target.type!=='checkbox' && e.target.value) checaA(k,true); });
+  var regrasA={
+    esfera:function(){ return esfera()?'':'Escolha a esfera da Secretaria.'; },
+    uf:function(){ return uf.value?'':'Selecione o estado.'; },
+    mun:function(){ return esfera()!=='municipal'||$('ad-mun').value.trim()?'':'Informe o município.'; },
+    sec:function(){ return $('ad-sec').value.trim().length>=10?'':'Informe o nome oficial da Secretaria.'; },
+    nome:function(){ return $('ad-nome').value.trim().split(/\s+/).length>=2?'':'Escreva nome e sobrenome do(a) titular.'; },
+    cargo:function(){ return $('ad-cargo').value?'':'Selecione o cargo.'; },
+    email:function(){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('ad-email').value.trim())?'':'Informe um e-mail completo.'; },
+    assina:function(){ var a=$('ad-assina').value; if(!a.trim()) return 'Digite seu nome completo para assinar.'; return norm(a)===norm($('ad-nome').value)?'':'O nome digitado precisa ser igual ao nome do(a) titular.'; },
+    decl:function(){ return $('ad-decl').checked?'':'Marque a declaração para assinar.'; }
+  };
+  var rotA={esfera:'Esfera',uf:'Estado',mun:'Município',sec:'Nome oficial da Secretaria',nome:'Nome do(a) secretário(a)',cargo:'Cargo',email:'E-mail institucional',assina:'Assinatura',decl:'Declaração'};
+  function checaA(k,mostrar){ var msg=regrasA[k](), e=$('ad-'+k+'-erro'); if(!mostrar) return msg;
+    if(k==='decl'){ $('ad-decl-box').classList.toggle('invalido',!!msg); }
+    else { var el=$('ad-'+k), box=el.closest('.campo')||el; box.classList.toggle('invalido',!!msg); if(el.matches('input,select')){ if(msg){ el.setAttribute('aria-invalid','true'); var d=el.getAttribute('aria-describedby')||''; if(d.indexOf('ad-'+k+'-erro')<0) el.setAttribute('aria-describedby',(d+' ad-'+k+'-erro').trim()); } else el.removeAttribute('aria-invalid'); } }
+    e.hidden=!msg; e.textContent=msg; return msg; }
+  $('ad-decl').addEventListener('change',function(){ if(this.checked) checaA('decl',true); });
+  form.addEventListener('submit',function(e){ e.preventDefault(); var erros=[];
+    Object.keys(regrasA).forEach(function(k){ if(k==='mun' && esfera()!=='municipal') return; var m=checaA(k,true); if(m) erros.push([k,m]); });
+    var res=$('ad-resumo'), li=$('ad-lista-erros');
+    if(erros.length){ li.innerHTML=''; erros.forEach(function(x){ var item=document.createElement('li'), a=document.createElement('a'); a.href='#adesao'; a.textContent=rotA[x[0]]+': '+x[1]; a.addEventListener('click',function(ev){ ev.preventDefault(); var alvo=x[0]==='esfera'?form.querySelector('input[name="ad-esfera"]'):$('ad-'+x[0]); alvo.focus(); }); item.appendChild(a); li.appendChild(item); }); res.hidden=false; res.focus(); return; }
+    res.hidden=true;
+    emitir({sec:$('ad-sec').value.trim(),nome:$('ad-nome').value.trim(),cargo:$('ad-cargo').value,inst:inst(),codigo:codigo(),ano:ANO,data:new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})}); });
+  $('nova-adesao').addEventListener('click',function(){ form.reset(); secEditada=false; uf.disabled=false; $('ad-mun-box').hidden=true; termo(); $('adesao-resultado').hidden=true; urls.forEach(URL.revokeObjectURL); urls=[]; arquivos={}; var y=form.getBoundingClientRect().top+window.scrollY-120; window.scrollTo(0,y); form.querySelector('input[name="ad-esfera"]').focus({preventScroll:true}); });
+  $('adesao-resultado').addEventListener('click',function(e){ var b=e.target.closest('[data-arq]'); if(b) baixar(b.dataset.arq); });
+  $('copiar-legenda').addEventListener('click',function(){ var t=$('legenda-txt').textContent, st=$('copiar-status');
+    function seleciona(){ var r=document.createRange(); r.selectNodeContents($('legenda-txt')); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); st.textContent='Texto selecionado: use Ctrl+C (ou Cmd+C) para copiar.'; }
+    try{ navigator.clipboard.writeText(t).then(function(){ st.textContent='Legenda copiada.'; },seleciona); }catch(x){ seleciona(); } });
+  termo();
+}
+
+var NOMES_ARQ={'cert-pdf':['certificado-adesao','pdf'],'cert-png':['certificado-adesao','png'],post:['post-adesao','png'],story:['story-adesao','png']};
+var atualD=null;
+async function emitir(d){ atualD=d; var sec=$('adesao-resultado'); sec.hidden=false; arquivos={};
+  $('res-texto').textContent=d.sec+' aderiu '+listaInst(d)+'.';
+  $('res-codigo').textContent=d.codigo;
+  var inst=d.inst.length>1? ' e '+d.inst.slice(1).map(function(k){ return k==='indique'?'aos Indicadores da Qualidade na Educação Infantil (INDIQUE)':'ao INDIQUE – Relações Raciais na Educação Infantil'; }).join(' e ') : '';
+  $('legenda-txt').textContent='A '+d.sec+' aderiu aos Parâmetros Nacionais de Qualidade e Equidade para a Educação Infantil (PNQEEI)'+inst+'.\n\nCom a adesão, a rede assume o compromisso de usar os parâmetros e os indicadores de qualidade para planejar, autoavaliar e acompanhar a Educação Infantil, com qualidade e equidade para todas as crianças.\n\n#EducaçãoInfantil #PNQEEI';
+  ['prev-cert','prev-post','prev-story'].forEach(function(id){ $(id).removeAttribute('src'); });
+  $('dl-status').textContent='Gerando o certificado e os posts…';
+  var y=sec.getBoundingClientRect().top+window.scrollY-80; window.scrollTo(0,y); $('t-resultado').focus({preventScroll:true});
+  await fontesProntas();
+  try{
+    var cert=await certificado(d), post=await peca(d,1080), story=await peca(d,1920);
+    if(atualD!==d) return;
+    arquivos['cert-png']=await blobDe(cert,'image/png'); arquivos.post=await blobDe(post,'image/png'); arquivos.story=await blobDe(story,'image/png');
+    urls.forEach(URL.revokeObjectURL); urls=[];
+    [['prev-cert','cert-png'],['prev-post','post'],['prev-story','story']].forEach(function(p){ var u=URL.createObjectURL(arquivos[p[1]]); urls.push(u); $(p[0]).src=u; });
+    $('dl-status').textContent=''; atualizaBaixar();
+    carregaJsPDF().then(function(lib){ var doc=new lib.jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true}); doc.setProperties({title:'Certificado de adesão aos PNQEEI',subject:d.sec}); doc.addImage(cert.toDataURL('image/jpeg',.92),'JPEG',0,0,297,210); if(atualD===d) arquivos['cert-pdf']=doc.output('blob'); })
+      .catch(function(){ var b=document.querySelector('[data-arq="cert-pdf"]'); if(b) b.hidden=true; $('dl-status').textContent='O PDF não pôde ser gerado agora. O certificado em PNG também serve para imprimir em A4.'; });
+  }catch(err){ $('dl-status').textContent='Não foi possível gerar as imagens neste navegador.'; }
+}
+function baixar(k){ var st=$('dl-status'), b=arquivos[k]; if(!dl){ atualizaBaixar(); return; }
+  if(!b){ st.textContent='Ainda estamos preparando esse arquivo. Tente de novo em alguns segundos.'; return; }
+  var n=NOMES_ARQ[k], nome=n[0]+'-'+slug(atualD.sec)+(k==='cert-png'?'-a4':'')+'.'+n[1];
+  st.textContent='';
+  dl.save({filename:nome,data:b}).then(function(r){ st.textContent= r && r.status==='delivered' ? 'Arquivo entregue.' : 'Arquivo salvo: '+nome+'.'; },function(e){ var c=e&&e.code;
+    if(c==='declined') st.textContent='Download cancelado.';
+    else if(c==='rate_limited') st.textContent='Já há um download em andamento. Aguarde um instante e tente de novo.';
+    else if(c==='too_large') st.textContent='O arquivo ficou grande demais para este app. Tente o PNG.';
+    else if(c==='host_unavailable'){ st.textContent='Este app não salva arquivos. Abra a página em um navegador ou no computador para baixar.'; dl=null; atualizaBaixar(); }
+    else { st.textContent='Os downloads não estão disponíveis nesta visualização.'; dl=null; atualizaBaixar(); } }); }
+
+/* =====================================================================
+   Ligação com a navegação
+   ===================================================================== */
+document.addEventListener('pnq:vista',function(e){ if(e.detail==='consulta') iniciaConsulta(); if(e.detail==='adesao'){ iniciaAdesao(); carregaJsPDF().catch(function(){}); } });
+desenhaSelosPagina();
+})();
+</script>

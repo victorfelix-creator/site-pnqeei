@@ -1,0 +1,10 @@
+﻿# sistema
+.DS_Store
+Thumbs.db
+# dados e segredos
+.env
+*.csv
+*.xlsx
+*.rds
+*.RData
+
